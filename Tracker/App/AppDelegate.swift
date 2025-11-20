@@ -16,9 +16,5 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         )
         sceneConfiguration.delegateClass = SceneDelegate.self
         return sceneConfiguration
-    }
-    
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-    }
-    
+    }    
 }

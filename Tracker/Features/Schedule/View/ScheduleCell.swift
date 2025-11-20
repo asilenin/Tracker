@@ -14,7 +14,8 @@ final class ScheduleCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("❌[ScheduleCell][init(coder:)] has not been implemented")
+        super.init(coder: coder)
+        return nil
     }
     
     // MARK: - Setup UI Elements

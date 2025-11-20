@@ -30,13 +30,14 @@ final class TrackerViewCell: UICollectionViewCell {
         setupCounterLabel()
         setupEmojiLabel()
         setupTextLabel()
-        setuptTitleLabel()
+        setupTitleLabel()
         setupAddButton()
         setupConstraints()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("❌[TrackerViewCell][init(coder:)] has not been implemented")
+        super.init(coder: coder)
+        return nil
     }
     
     // MARK: - Setup UI Elements
@@ -78,7 +79,7 @@ final class TrackerViewCell: UICollectionViewCell {
         contentView.addSubview(counterLabel)
     }
     
-    private func setuptTitleLabel() {
+    private func setupTitleLabel() {
         titleLabel.text = TrackViewCellMock.titleText
         titleLabel.textColor = UIColor(resource: .blackYP)
         titleLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
@@ -134,10 +135,9 @@ final class TrackerViewCell: UICollectionViewCell {
     // MARK: - Actions
     
     @objc func addButtonTapped() {
-        guard let trackerID = trackerID, let indexPath = indexPath else {
-            return
-        }
-        if isFutureDate {
+        guard let trackerID = trackerID,
+              let indexPath = indexPath,
+              !isFutureDate else {
             return
         }
         let newIsCompleted = !addButton.isSelected
@@ -155,19 +155,30 @@ final class TrackerViewCell: UICollectionViewCell {
     
     // MARK: - Configuration
     
-    func configure(isCompleted: Bool, trackerID: UUID, trackerName: String, indexPath: IndexPath, categoryTitle: String, completedDays: Int, currentDate: Date) {
-        self.trackerID = trackerID
-        self.textLabel.text = trackerName
-        self.indexPath = indexPath
-        self.categoryTitle = categoryTitle
-        self.completedDays = completedDays
-        self.currentDate = currentDate
+    func configure(
+        isCompleted: Bool,
+        trackerID id: UUID,
+        trackerName name: String,
+        indexPath path: IndexPath,
+        categoryTitle title: String,
+        completedDays days: Int,
+        currentDate date: Date
+    ) {
+        trackerID = id
+        textLabel.text = name
+        indexPath = path
+        categoryTitle = title
+        completedDays = days
+        currentDate = date
         isFutureDate = currentDate > Date()
+
         updateCounterLabelText(completedDays: completedDays)
         updateAddButtonView(isCompleted: isCompleted)
         addButton.isSelected = isCompleted
-        titleLabel.isHidden = indexPath.row != 0
+
+        titleLabel.isHidden = path.row != 0      // ← fixed
         titleLabel.text = categoryTitle
+
         if isFutureDate {
             addButton.isEnabled = false
             addButton.backgroundColor = .gray
@@ -190,8 +201,8 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     private func setCategoryTitle(_ title: String) {
-        if self.categoryTitle == nil {
-            self.categoryTitle = title
+        if categoryTitle == nil {
+            categoryTitle = title
             titleLabel.text = title
         }
     }

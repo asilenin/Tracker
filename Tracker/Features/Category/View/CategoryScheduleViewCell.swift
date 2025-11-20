@@ -23,7 +23,8 @@ final class CategoryScheduleViewCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("❌[CategoryScheduleViewCell][init(coder:)] has not been implemented")
+        super.init(coder: coder)
+        return nil
     }
     
     // MARK: - Setup UI Elements

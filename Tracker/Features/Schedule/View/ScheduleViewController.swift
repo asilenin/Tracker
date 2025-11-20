@@ -103,8 +103,8 @@ extension ScheduleViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let day = Weekday.allCases[indexPath.row]
-        cell.contentView.backgroundColor = UIColor(resource: .backgroudYP).withAlphaComponent(0.3)
-        let backgroundColor = UIColor(resource: .backgroudYP).withAlphaComponent(0.3)
+        cell.contentView.backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
+        let backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
         cell.backgroundColor = backgroundColor
         cell.contentView.backgroundColor = .clear
         cell.textLabel?.text = day.rawValue

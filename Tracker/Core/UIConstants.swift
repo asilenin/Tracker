@@ -10,7 +10,7 @@ enum UITrackersVCConstants {
     
 }
 
-enum UIHabbitTrackerConstants {
+enum UIHabitTrackerConstants {
     static let errorMessage = "Ограничение 38 символов"
     static let sectionCategory = "Категория"
     static let sectionSchedule = "Расписание"
@@ -18,8 +18,12 @@ enum UIHabbitTrackerConstants {
     static let categoryUnimportant = "Неважное"
     static let title = "Новая привычка"
     static let namePlaceholder = "Введите название трекера"
-    static let createlButton = "Создать"
+    static let createButton = "Создать"
     static let cancelButton = "Отменить"
+}
+
+enum NewTrackerConstants{
+    static let newTrackerTitleSymbolsLimit = 38
 }
 
 enum UIScheduleConstants {

@@ -11,12 +11,22 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     weak var delegate: AddTrackerViewControllerDelegate?
     
     // MARK: - Private Properties
-    private let sections = [UIHabbitTrackerConstants.sectionCategory, UIHabbitTrackerConstants.sectionSchedule]
-    private var categories: [String] = [UIHabbitTrackerConstants.categoryImportant, UIHabbitTrackerConstants.categoryUnimportant]
-    private var trackerId: UUID!
+    private let sections = [UIHabitTrackerConstants.sectionCategory, UIHabitTrackerConstants.sectionSchedule]
+    private var categories: [String] = [UIHabitTrackerConstants.categoryImportant, UIHabitTrackerConstants.categoryUnimportant]
     private var currentDate: Date?
     private var selectedSchedule: [Weekday] = []
     private var selectedCategory: String?
+    
+    private let trackerId: UUID
+
+    init(trackerId: UUID = UUID()) {
+        self.trackerId = trackerId
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        return nil
+    }
     
     // MARK: - UI Elements
     private let trackerNameTextField = UITextField()
@@ -48,7 +58,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     private func setupErrorLabel(){
         errorLabel.textColor = UIColor(resource: .redYP)
         errorLabel.font = .systemFont(ofSize: 17, weight: .regular)
-        errorLabel.text = UIHabbitTrackerConstants.errorMessage
+        errorLabel.text = UIHabitTrackerConstants.errorMessage
         errorLabel.isHidden = true
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(errorLabel)
@@ -56,12 +66,12 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     
     private func setupTitle(){
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 16, weight: .medium)]
-        navigationItem.title = UIHabbitTrackerConstants.title
+        navigationItem.title = UIHabitTrackerConstants.title
     }
     
     private func setupNameTrackerTextField() {
-        trackerNameTextField.placeholder = UIHabbitTrackerConstants.namePlaceholder
-        trackerNameTextField.backgroundColor = UIColor(resource: .backgroudYP).withAlphaComponent(0.3)
+        trackerNameTextField.placeholder = UIHabitTrackerConstants.namePlaceholder
+        trackerNameTextField.backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
         trackerNameTextField.layer.cornerRadius = 16
         trackerNameTextField.layer.masksToBounds = true
         trackerNameTextField.clearButtonMode = .whileEditing
@@ -88,7 +98,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     }
     
     private func setupCreateButton() {
-        createButton.setTitle(UIHabbitTrackerConstants.createlButton, for: .normal)
+        createButton.setTitle(UIHabitTrackerConstants.createButton, for: .normal)
         createButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         createButton.setTitleColor(.white, for: .normal)
         createButton.backgroundColor = UIColor(resource: .greyYP)
@@ -100,7 +110,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     }
     
     private func setupCancelButton() {
-        cancelButton.setTitle(UIHabbitTrackerConstants.cancelButton, for: .normal)
+        cancelButton.setTitle(UIHabitTrackerConstants.cancelButton, for: .normal)
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         cancelButton.setTitleColor(.red, for: .normal)
         cancelButton.layer.borderColor = (UIColor(resource: .redYP)).cgColor
@@ -146,13 +156,8 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let currentText = textField.text else { return true }
         let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
-        if newText.count > 38 {
-            errorLabel.isHidden = false
-            return false
-        } else {
-            errorLabel.isHidden = true
-            return true
-        }
+        errorLabel.isHidden = newText.count <= NewTrackerConstants.newTrackerTitleSymbolsLimit
+        return newText.count <= NewTrackerConstants.newTrackerTitleSymbolsLimit
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -169,7 +174,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         }
         errorLabel.isHidden = true
         let newTracker = Tracker(id: UUID(), name: name, color: UIColor(resource: .redYP), emoji: "🙂", schedule: selectedSchedule)
-        guard let selectedCategory = selectedCategory else {
+        guard let selectedCategory else {
             return
         }
         delegate?.addNewTracker(tracker: newTracker, title: selectedCategory)
@@ -192,7 +197,7 @@ extension AddTrackerViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let title = sections[indexPath.row]
-        var subtitle: String? = nil
+        var subtitle: String?
         if indexPath.row == 0 {
             subtitle = selectedCategory
         } else if indexPath.row == 1 && !selectedSchedule.isEmpty {
@@ -211,8 +216,8 @@ extension AddTrackerViewController: UITableViewDataSource {
         }
         cell.configure(title: title, subtitle: subtitle)
         cell.accessoryType = .disclosureIndicator
-        cell.contentView.backgroundColor = UIColor(resource: .backgroudYP).withAlphaComponent(0.3)
-        let backgroundColor = UIColor(resource: .backgroudYP).withAlphaComponent(0.3)
+        cell.contentView.backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
+        let backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
         cell.backgroundColor = backgroundColor
         cell.contentView.backgroundColor = .clear
         cell.titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)

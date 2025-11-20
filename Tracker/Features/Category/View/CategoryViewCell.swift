@@ -11,7 +11,8 @@ final class CategoryViewCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("❌[CategoryViewCell][init(coder:)] has not been implemented")
+        super.init(coder: coder)
+        return nil
     }
     // MARK: - Constraints
     

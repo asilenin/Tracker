@@ -42,7 +42,8 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     }
     
     required init?(coder: NSCoder) {
-        fatalError("❌[TrackersViewController][init(coder:)] has not been implemented")
+        super.init(coder: coder)
+        return nil
     }
     
     // MARK: - Lifecycle
@@ -225,9 +226,6 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     @objc private func datePickerValueChanged(_ sender: UIDatePicker) {
         let selectedDate = sender.date
         self.currentDate = selectedDate
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yy"
-        let formattedDate = dateFormatter.string(from: selectedDate)
         filterTrackersForSelectedDate(selectedDate)
     }
     
