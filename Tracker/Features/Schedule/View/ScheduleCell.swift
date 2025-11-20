@@ -1,0 +1,38 @@
+import UIKit
+
+final class ScheduleCell: UITableViewCell {
+    static let reuseIdentifier = "ScheduleCell"
+    
+    // MARK: - UI Elements
+    let daySwitch = UISwitch()
+    
+    // MARK: - Initializers
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupDaySwitch()
+        setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        return nil
+    }
+    
+    // MARK: - Setup UI Elements
+    
+    private func setupDaySwitch(){
+        daySwitch.onTintColor = UIColor(resource: .blueYP)
+        daySwitch.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(daySwitch)
+    }
+    
+    // MARK: - Constraints
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            daySwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            daySwitch.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 22),
+            daySwitch.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -22)
+        ])
+    }
+}
