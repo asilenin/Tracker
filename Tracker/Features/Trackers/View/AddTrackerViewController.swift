@@ -16,6 +16,8 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     private var currentDate: Date?
     private var selectedSchedule: [Weekday] = []
     private var selectedCategory: String?
+    private var selectedEmoji: String?
+    private var selectedColor: UIColor?
     
     private let trackerId: UUID
 
