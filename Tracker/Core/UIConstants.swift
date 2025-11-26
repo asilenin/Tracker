@@ -20,6 +20,8 @@ enum UIHabitTrackerConstants {
     static let namePlaceholder = "Введите название трекера"
     static let createButton = "Создать"
     static let cancelButton = "Отменить"
+    
+    static let everyDay = "Каждый день"
 }
 
 enum NewTrackerConstants{

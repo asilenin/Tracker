@@ -202,20 +202,10 @@ extension AddTrackerViewController: UITableViewDataSource {
         var subtitle: String?
         if indexPath.row == 0 {
             subtitle = selectedCategory
-        } else if indexPath.row == 1 && !selectedSchedule.isEmpty {
-            let dayAbbreviations = selectedSchedule.map { day in
-                switch day {
-                case .monday: return "Пн"
-                case .tuesday: return "Вт"
-                case .wednesday: return "Ср"
-                case .thursday: return "Чт"
-                case .friday: return "Пт"
-                case .saturday: return "Сб"
-                case .sunday: return "Вс"
-                }
-            }
-            subtitle = dayAbbreviations.joined(separator: ", ")
+        } else if indexPath.row == 1 {
+            subtitle = scheduleSubtitle()
         }
+        
         cell.configure(title: title, subtitle: subtitle)
         cell.accessoryType = .disclosureIndicator
         cell.contentView.backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
@@ -229,6 +219,16 @@ extension AddTrackerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
+    }
+    
+    private func scheduleSubtitle() -> String? {
+        guard !selectedSchedule.isEmpty else { return nil }
+
+        if selectedSchedule.count == Weekday.allCases.count {
+            return UIHabitTrackerConstants.everyDay
+        }
+
+        return selectedSchedule.map { $0.shortName }.joined(separator: ", ")
     }
 }
 
