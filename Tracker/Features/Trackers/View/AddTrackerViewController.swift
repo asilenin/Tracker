@@ -18,6 +18,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     private var selectedCategory: String?
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
+    private var isFormValid: Bool = false
     
     private let trackerId: UUID
 
@@ -31,30 +32,48 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     }
     
     // MARK: - UI Elements
-    private let trackerNameTextField = UITextField()
-    private let tableView = UITableView()
-    private let createButton = UIButton()
-    private let cancelButton = UIButton()
-    private let errorLabel = UILabel()
+    private lazy var scrollView = UIScrollView()
+    
+    private lazy var trackerNameTextField = UITextField()
+    private lazy var tableView = UITableView()
+
+    private lazy var emojiLabel = UILabel()
+    private lazy var emojiCollectionView = UICollectionView()
+    
+    private lazy var colorLabel = UILabel()
+    private lazy var colorCollectionView = UICollectionView()
+    
+    private lazy var createButton = UIButton()
+    private lazy var cancelButton = UIButton()
+    private lazy var errorLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupScrollView()
         setupErrorLabel()
         setupTitle()
         setupNameTrackerTextField()
         setupTableView()
+        setupEmojiLabel()
+        setupEmojiCollectionView()
+        setupColorLabel()
+        setupColorCollectionView()
         setupCreateButton()
         setupCancelButton()
         setupConstraints()
-        tableView.dataSource = self
-        tableView.delegate = self
-        trackerNameTextField.delegate = self
     }
     
     // MARK: - Setup UI Elements
     private func setupView() {
         view.backgroundColor = .whiteYP
+    }
+    
+    private func setupScrollView(){
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = true
+        view.addSubview(scrollView)
     }
     
     private func setupErrorLabel(){
@@ -63,7 +82,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         errorLabel.text = UIHabitTrackerConstants.errorMessage
         errorLabel.isHidden = true
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(errorLabel)
+        scrollView.addSubview(errorLabel)
     }
     
     private func setupTitle(){
@@ -77,8 +96,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         trackerNameTextField.layer.cornerRadius = 16
         trackerNameTextField.layer.masksToBounds = true
         trackerNameTextField.clearButtonMode = .whileEditing
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: trackerNameTextField.frame.height))
-        trackerNameTextField.leftView = paddingView
+        trackerNameTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: trackerNameTextField.frame.height))
         trackerNameTextField.leftViewMode = .always
         trackerNameTextField.returnKeyType = .done
         trackerNameTextField.enablesReturnKeyAutomatically = true
@@ -86,7 +104,8 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         trackerNameTextField.textColor = UIColor(resource: .greyYP)
         trackerNameTextField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         trackerNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(trackerNameTextField)
+        trackerNameTextField.delegate = self
+        scrollView.addSubview(trackerNameTextField)
     }
     
     private func setupTableView() {
@@ -96,11 +115,60 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CategoryScheduleViewCell.self, forCellReuseIdentifier: CategoryScheduleViewCell.reuseIdentifier)
-        view.addSubview(tableView)
+        scrollView.addSubview(tableView)
+    }
+    
+    private func setupEmojiLabel() {
+        emojiLabel.text = UIHabitTrackerConstants.emojiTitle
+        emojiLabel.font = .systemFont(ofSize: 19, weight: .bold)
+        emojiLabel.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(emojiLabel)
+    }
+    
+    
+    private func setupEmojiCollectionView(){
+        let emojiLayout = UICollectionViewFlowLayout()
+        emojiLayout.itemSize = CGSize(width: 52, height: 52)
+        emojiLayout.minimumInteritemSpacing = 5
+        emojiLayout.minimumLineSpacing = 0
+        emojiLayout.sectionInset = UIEdgeInsets(top: 24, left: 18, bottom: 24, right: 18)
+        
+        emojiCollectionView = UICollectionView(frame: .zero, collectionViewLayout: emojiLayout)
+        
+        emojiCollectionView.register(EmojiCell.self, forCellWithReuseIdentifier: "EmojiCell")
+        emojiCollectionView.backgroundColor = .clear
+        emojiCollectionView.delegate = self
+        emojiCollectionView.dataSource = self
+        emojiCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        emojiCollectionView.isScrollEnabled = false
+        scrollView.addSubview(emojiCollectionView)
+    }
+    
+    private func setupColorLabel() {
+        colorLabel.text = UIHabitTrackerConstants.colorTitle
+        colorLabel.font = .systemFont(ofSize: 19, weight: .bold)
+        colorLabel.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(colorLabel)
+    }
+    
+    private func setupColorCollectionView(){
+        let colorLayout = UICollectionViewFlowLayout()
+        colorLayout.itemSize = CGSize(width: 52, height: 52)
+        colorLayout.minimumInteritemSpacing = 5
+        colorLayout.minimumLineSpacing = 0
+        colorLayout.sectionInset = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
+        colorCollectionView = UICollectionView(frame: .zero, collectionViewLayout: colorLayout)
+        colorCollectionView.register(ColorCell.self, forCellWithReuseIdentifier: "ColorCell")
+        colorCollectionView.backgroundColor = .clear
+        colorCollectionView.delegate = self
+        colorCollectionView.dataSource = self
+        colorCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        colorCollectionView.isScrollEnabled = false
+        scrollView.addSubview(colorCollectionView)
     }
     
     private func setupCreateButton() {
-        createButton.setTitle(UIHabitTrackerConstants.createButton, for: .normal)
+        createButton.setTitle(UIHabitTrackerConstants.createButtonLabel, for: .normal)
         createButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         createButton.setTitleColor(.white, for: .normal)
         createButton.backgroundColor = UIColor(resource: .greyYP)
@@ -108,11 +176,11 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         createButton.layer.masksToBounds = true
         createButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         createButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(createButton)
+        scrollView.addSubview(createButton)
     }
     
     private func setupCancelButton() {
-        cancelButton.setTitle(UIHabitTrackerConstants.cancelButton, for: .normal)
+        cancelButton.setTitle(UIHabitTrackerConstants.cancelButtonLabel, for: .normal)
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         cancelButton.setTitleColor(.red, for: .normal)
         cancelButton.layer.borderColor = (UIColor(resource: .redYP)).cgColor
@@ -121,31 +189,59 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         cancelButton.layer.masksToBounds = true
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(cancelButton)
+        scrollView.addSubview(cancelButton)
     }
     
     // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            trackerNameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            trackerNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            trackerNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -16),
+            
+            trackerNameTextField.topAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.topAnchor, constant: 24),
+            trackerNameTextField.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            trackerNameTextField.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
             trackerNameTextField.heightAnchor.constraint(equalToConstant: 75),
+            
             errorLabel.heightAnchor.constraint(equalToConstant: 22),
             errorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             errorLabel.topAnchor.constraint(equalTo: trackerNameTextField.bottomAnchor, constant: 8),
+            
             cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
             cancelButton.trailingAnchor.constraint(equalTo: createButton.leadingAnchor, constant: -8),
+            
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             createButton.heightAnchor.constraint(equalToConstant: 60),
             createButton.widthAnchor.constraint(equalTo: cancelButton.widthAnchor),
+            
             tableView.topAnchor.constraint(equalTo: trackerNameTextField.bottomAnchor, constant: 24),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: 150)
+            tableView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16),
+            tableView.heightAnchor.constraint(equalToConstant: 150),
+            
+            emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
+            emojiLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 28),
+            
+            emojiCollectionView.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor, constant: 0),
+            emojiCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            emojiCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            emojiCollectionView.heightAnchor.constraint(equalToConstant: 204),
+            
+            colorLabel.topAnchor.constraint(equalTo: emojiCollectionView.bottomAnchor, constant: 16),
+            colorLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 28),
+            
+            colorCollectionView.topAnchor.constraint(equalTo: colorLabel.bottomAnchor, constant: 0),
+            colorCollectionView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            colorCollectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            colorCollectionView.heightAnchor.constraint(equalToConstant: 204),
+            colorCollectionView.bottomAnchor.constraint(equalTo: scrollView.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -170,6 +266,30 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     }
     
     // MARK: - Private Methods
+    
+    private func updateCreateButtonState() {
+        guard let text = trackerNameTextField.text else {
+            createButton.backgroundColor = UIColor(resource: .greyYP)
+            createButton.isEnabled = false
+            print("\(#file):\(#line)] \(#function) TextField.text == nil")
+            return
+        }
+        let hasText = !text.isEmpty
+        let hasSchedule = !selectedSchedule.isEmpty
+        let hasEmoji = selectedEmoji != nil
+        let hasColor = selectedColor != nil
+        
+        isFormValid = hasText && hasSchedule && hasEmoji && hasColor
+        
+        if isFormValid {
+            createButton.backgroundColor = .blackYP
+            createButton.isEnabled = true
+        } else {
+            createButton.backgroundColor = UIColor(resource: .greyYP)
+            createButton.isEnabled = false
+        }
+    }
+    
     @objc private func saveButtonTapped(){
         guard let name = trackerNameTextField.text, !name.isEmpty else {
             return
@@ -256,5 +376,52 @@ extension AddTrackerViewController: CategoryViewControllerDelegate {
     func didUpdateCategory(_ selectedCategory: String) {
         self.selectedCategory = selectedCategory
         tableView.reloadData()
+    }
+}
+
+
+extension AddTrackerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == emojiCollectionView {
+            return TrackerEmojis.emojis.count
+        } else {
+            return TrackerColors.colors.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == emojiCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "EmojiCell",
+                for: indexPath
+            ) as? EmojiCell else {
+                print("\(#file):\(#line)] \(#function) Ошибка приведения типа для EmojiCell")
+                return UICollectionViewCell()
+            }
+            cell.configure(with: TrackerEmojis.emojis[indexPath.item])
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "ColorCell",
+                for: indexPath
+            ) as? ColorCell else {
+                print("\(#file):\(#line)] \(#function) Ошибка приведения типа для ColorCell")
+                return UICollectionViewCell()
+            }
+            cell.configure(with: TrackerColors.colors[indexPath.item])
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == emojiCollectionView {
+            selectedEmoji = TrackerEmojis.emojis[indexPath.item]
+            print("\(#file):\(#line)] \(#function) Выбран эмодзи: \(selectedEmoji ?? "")")
+            
+        } else if collectionView == colorCollectionView {
+            selectedColor = TrackerColors.colors[indexPath.item]
+            print("\(#file):\(#line)] \(#function) Выбран цвет: \(selectedColor?.description ?? "")")
+        }
+        updateCreateButtonState()
     }
 }
