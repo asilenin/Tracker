@@ -116,7 +116,7 @@ extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         selectedCategory = categories[indexPath.row]
-        delegate?.didUpdateCategory(selectedCategory ?? "Важное")
+        delegate?.didUpdateCategory(selectedCategory ?? UIHabitTrackerConstants.categoryImportant)
         tableView.reloadData()
     }
 }
