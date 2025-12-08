@@ -19,34 +19,26 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
     private var isFormValid: Bool = false
-    
     private let trackerId: UUID
-
     init(trackerId: UUID = UUID()) {
         self.trackerId = trackerId
         super.init(nibName: nil, bundle: nil)
     }
-
     required init?(coder: NSCoder) {
         return nil
     }
     
     // MARK: - UI Elements
     private lazy var scrollView = UIScrollView()
-    
     private lazy var trackerNameTextField = UITextField()
     private lazy var tableView = UITableView()
-
     private lazy var emojiLabel = UILabel()
     private lazy var emojiCollectionView = UICollectionView()
-    
     private lazy var colorLabel = UILabel()
     private lazy var colorCollectionView = UICollectionView()
-    
     private lazy var createButton = UIButton()
     private lazy var cancelButton = UIButton()
     private lazy var errorLabel = UILabel()
-    
     private lazy var tapGesture: UITapGestureRecognizer = {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         gesture.cancelsTouchesInView = false
@@ -54,7 +46,6 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         gesture.delaysTouchesEnded = false
         return gesture
     }()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,7 +129,6 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         scrollView.addSubview(emojiLabel)
     }
     
-    
     private func setupEmojiCollectionView(){
         let emojiLayout = UICollectionViewFlowLayout()
         emojiLayout.itemSize = CGSize(width: 52, height: 52)
@@ -208,65 +198,65 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     // MARK: - Constraints
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-
+            
             // MARK: ScrollView
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: createButton.topAnchor, constant: -16),
             scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
-
+            
             // MARK: Tracker Name
             trackerNameTextField.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 24),
             trackerNameTextField.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
             trackerNameTextField.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
             trackerNameTextField.heightAnchor.constraint(equalToConstant: 75),
-
+            
             // MARK: Error Label
             errorLabel.topAnchor.constraint(equalTo: trackerNameTextField.bottomAnchor, constant: 8),
             errorLabel.centerXAnchor.constraint(equalTo: scrollView.contentLayoutGuide.centerXAnchor),
             errorLabel.heightAnchor.constraint(equalToConstant: 22),
-
+            
             // MARK: Category/Schedule table
             tableView.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: 150),
-
+            
             // MARK: Emoji Label
             emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
             emojiLabel.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 28),
-
+            
             // MARK: Emoji Collection
             emojiCollectionView.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor),
             emojiCollectionView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             emojiCollectionView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             emojiCollectionView.heightAnchor.constraint(equalToConstant: 204),
-
+            
             // MARK: Color Label
             colorLabel.topAnchor.constraint(equalTo: emojiCollectionView.bottomAnchor, constant: 16),
             colorLabel.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 28),
-
+            
             // MARK: Color Collection
             colorCollectionView.topAnchor.constraint(equalTo: colorLabel.bottomAnchor),
             colorCollectionView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             colorCollectionView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             colorCollectionView.heightAnchor.constraint(equalToConstant: 204),
-
+            
             colorCollectionView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
-
+            
             // MARK: Cancel Button
             cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
-
+            
             // MARK: Create Button
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             createButton.heightAnchor.constraint(equalToConstant: 60),
-
+            
             createButton.widthAnchor.constraint(equalTo: cancelButton.widthAnchor),
-
+            
             cancelButton.trailingAnchor.constraint(equalTo: createButton.leadingAnchor, constant: -8)
         ])
     }
@@ -294,13 +284,12 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     func textFieldDidBeginEditing(_ textField: UITextField) {
         updateCreateButtonState()
     }
-
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateCreateButtonState()
     }
     
     // MARK: - Private Methods
-    
     private func updateCreateButtonState() {
         guard let text = trackerNameTextField.text else {
             createButton.backgroundColor = UIColor(resource: .greyYP)
@@ -328,11 +317,18 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         guard let name = trackerNameTextField.text, !name.isEmpty else {
             return
         }
+        guard let selectedCategory else { return }
+        guard let emoji = selectedEmoji else { return }
+        guard let color = selectedColor else { return }
+        
         errorLabel.isHidden = true
-        let newTracker = Tracker(id: UUID(), name: name, color: UIColor(resource: .redYP), emoji: "🙂", schedule: selectedSchedule)
-        guard let selectedCategory else {
-            return
-        }
+        let newTracker = Tracker(
+            id: UUID(),
+            name: name,
+            color: color,
+            emoji: emoji,
+            schedule: selectedSchedule
+        )
         delegate?.addNewTracker(tracker: newTracker, title: selectedCategory)
         dismiss(animated: true, completion: nil)
     }
@@ -381,11 +377,11 @@ extension AddTrackerViewController: UITableViewDataSource {
     
     private func scheduleSubtitle() -> String? {
         guard !selectedSchedule.isEmpty else { return nil }
-
+        
         if selectedSchedule.count == Weekday.allCases.count {
             return UIHabitTrackerConstants.everyDay
         }
-
+        
         return selectedSchedule.map { $0.shortName }.joined(separator: ", ")
     }
 }
@@ -409,7 +405,6 @@ extension AddTrackerViewController: UITableViewDelegate {
     }
 }
 
-
 extension AddTrackerViewController: CategoryViewControllerDelegate {
     func didUpdateCategory(_ selectedCategory: String) {
         self.selectedCategory = selectedCategory
@@ -422,7 +417,6 @@ extension AddTrackerViewController: UIScrollViewDelegate {
         view.endEditing(true)
     }
 }
-
 
 extension AddTrackerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

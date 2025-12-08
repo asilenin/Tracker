@@ -7,7 +7,6 @@ enum UITrackersVCConstants {
     static let title = "Трекеры"
     static let clearTextLabel = "Что будем отслеживать?"
     static let searchBarPlaceholder = "Поиск"
-    
 }
 
 enum UIHabitTrackerConstants {
@@ -22,7 +21,6 @@ enum UIHabitTrackerConstants {
     static let cancelButtonLabel = "Отменить"
     static let emojiTitle = "Emoji"
     static let colorTitle = "Цвет"
-    
     static let everyDay = "Каждый день"
 }
 
@@ -33,7 +31,6 @@ enum NewTrackerConstants{
 enum UIScheduleConstants {
     static let navigationTitle = "Расписание"
     static let doneButtonTitle = "Готово"
-    //static let
 }
 
 enum UICategoryConstants {
