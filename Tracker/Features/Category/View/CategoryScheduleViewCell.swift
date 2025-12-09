@@ -1,8 +1,8 @@
+import UIKit
+
 protocol CategoryScheduleViewCellDelegate: AnyObject {
     func didTapCategoryButton()
 }
-
-import UIKit
 
 final class CategoryScheduleViewCell: UITableViewCell {
     

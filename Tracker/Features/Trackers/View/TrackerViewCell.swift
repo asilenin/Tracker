@@ -41,7 +41,6 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     // MARK: - Setup UI Elements
-    
     private func setupCardView() {
         cardView.backgroundColor = UIColor(resource: .greenYP)
         cardView.layer.cornerRadius = 16
@@ -51,7 +50,6 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     private func setupTextLabel() {
-        textLabel.text = TrackViewCellMock.textText
         textLabel.numberOfLines = 0
         titleLabel.contentMode = .bottom
         textLabel.textColor = UIColor(resource: .whiteYP)
@@ -61,7 +59,6 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     private func setupEmojiLabel() {
-        emojiLabel.text = TrackViewCellMock.emojiText
         emojiLabel.textColor = UIColor(resource: .blackYP)
         emojiLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         emojiLabel.backgroundColor = .white.withAlphaComponent(0.3)
@@ -72,7 +69,6 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     private func setupCounterLabel() {
-        counterLabel.text = TrackViewCellMock.counterText
         counterLabel.textColor = UIColor(resource: .blackYP)
         counterLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         counterLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +76,6 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     private func setupTitleLabel() {
-        titleLabel.text = TrackViewCellMock.titleText
         titleLabel.textColor = UIColor(resource: .blackYP)
         titleLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         titleLabel.contentMode = .left
@@ -133,7 +128,6 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     // MARK: - Actions
-    
     @objc func addButtonTapped() {
         guard let trackerID = trackerID,
               let indexPath = indexPath,
@@ -154,7 +148,6 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     // MARK: - Configuration
-    
     func configure(
         isCompleted: Bool,
         trackerID id: UUID,
@@ -162,7 +155,9 @@ final class TrackerViewCell: UICollectionViewCell {
         indexPath path: IndexPath,
         categoryTitle title: String,
         completedDays days: Int,
-        currentDate date: Date
+        currentDate date: Date,
+        trackerEmoji emoji: String,
+        trackerColor color: UIColor
     ) {
         trackerID = id
         textLabel.text = name
@@ -171,14 +166,18 @@ final class TrackerViewCell: UICollectionViewCell {
         completedDays = days
         currentDate = date
         isFutureDate = currentDate > Date()
-
+        
+        emojiLabel.text = emoji
+        cardView.backgroundColor = color
+        textLabel.text = name
+        
         updateCounterLabelText(completedDays: completedDays)
         updateAddButtonView(isCompleted: isCompleted)
         addButton.isSelected = isCompleted
-
+        
         titleLabel.isHidden = path.row != 0      // ← fixed
         titleLabel.text = categoryTitle
-
+        
         if isFutureDate {
             addButton.isEnabled = false
             addButton.backgroundColor = .gray
@@ -188,7 +187,6 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     // MARK: - Update UI
-    
     private func updateAddButtonView(isCompleted: Bool) {
         addButton.isSelected = isCompleted
         let image = isCompleted ? UIImage(named: "Plus") : UIImage(systemName: "plus")

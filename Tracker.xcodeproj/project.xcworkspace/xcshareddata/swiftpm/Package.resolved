@@ -1,0 +1,15 @@
+{
+  "originHash" : "4c87f24c589d524c6de1f517febf7aad9ea3ba2bb85f3eaa733b7f98ac0dee64",
+  "pins" : [
+    {
+      "identity" : "swift-log?tab=readme-ov-file",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log?tab=readme-ov-file",
+      "state" : {
+        "revision" : "b1fa4ef41fe21b13120c034854042d12c43f66b2",
+        "version" : "1.7.1"
+      }
+    }
+  ],
+  "version" : 3
+}
