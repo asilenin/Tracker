@@ -1,4 +1,5 @@
 import UIKit
+import Logging
 
 protocol AddTrackerViewControllerDelegate: AnyObject {
     func addNewTracker(tracker: Tracker, title: String)
@@ -80,7 +81,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     }
     
     private func setupErrorLabel(){
-        errorLabel.textColor = UIColor(resource: .redYP)
+        errorLabel.textColor = .redYP
         errorLabel.font = .systemFont(ofSize: 17, weight: .regular)
         errorLabel.text = UIHabitTrackerConstants.errorMessage
         errorLabel.isHidden = true
@@ -104,7 +105,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         trackerNameTextField.returnKeyType = .done
         trackerNameTextField.enablesReturnKeyAutomatically = true
         trackerNameTextField.smartInsertDeleteType = .no
-        trackerNameTextField.textColor = UIColor(resource: .greyYP)
+        trackerNameTextField.textColor = .greyYP
         trackerNameTextField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         trackerNameTextField.translatesAutoresizingMaskIntoConstraints = false
         trackerNameTextField.keyboardType = .default
@@ -174,7 +175,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         createButton.setTitle(UIHabitTrackerConstants.createButtonLabel, for: .normal)
         createButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         createButton.setTitleColor(.white, for: .normal)
-        createButton.backgroundColor = UIColor(resource: .greyYP)
+        createButton.backgroundColor = .greyYP
         createButton.layer.cornerRadius = 16
         createButton.layer.masksToBounds = true
         createButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
@@ -292,9 +293,9 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     // MARK: - Private Methods
     private func updateCreateButtonState() {
         guard let text = trackerNameTextField.text else {
-            createButton.backgroundColor = UIColor(resource: .greyYP)
+            createButton.backgroundColor = .greyYP
             createButton.isEnabled = false
-            print("[AddTrackerViewController]: :\(#line)] \(#function): TextField.text == nil")
+            AppLogger.shared.warning("[AddTrackerViewController]: :\(#line)] \(#function): TextField.text == nil")
             return
         }
         let hasText = !text.isEmpty
@@ -304,22 +305,21 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         
         isFormValid = hasText && hasSchedule && hasEmoji && hasColor
         
-        if isFormValid {
-            createButton.backgroundColor = .blackYP
-            createButton.isEnabled = true
-        } else {
-            createButton.backgroundColor = UIColor(resource: .greyYP)
-            createButton.isEnabled = false
-        }
+        createButton.backgroundColor = isFormValid ? .blackYP : .greyYP
+        createButton.isEnabled = isFormValid
     }
     
     @objc private func saveButtonTapped(){
         guard let name = trackerNameTextField.text, !name.isEmpty else {
             return
         }
-        guard let selectedCategory else { return }
-        guard let emoji = selectedEmoji else { return }
-        guard let color = selectedColor else { return }
+        guard
+            let selectedCategory,
+            let emoji = selectedEmoji,
+            let color = selectedColor
+        else {
+            return
+        }
         
         errorLabel.isHidden = true
         let newTracker = Tracker(
@@ -378,11 +378,9 @@ extension AddTrackerViewController: UITableViewDataSource {
     private func scheduleSubtitle() -> String? {
         guard !selectedSchedule.isEmpty else { return nil }
         
-        if selectedSchedule.count == Weekday.allCases.count {
-            return UIHabitTrackerConstants.everyDay
-        }
-        
-        return selectedSchedule.map { $0.shortName }.joined(separator: ", ")
+        return selectedSchedule.count == Weekday.allCases.count
+            ? UIHabitTrackerConstants.everyDay
+            : selectedSchedule.map { $0.shortName }.joined(separator: ", ")
     }
 }
 
@@ -420,11 +418,9 @@ extension AddTrackerViewController: UIScrollViewDelegate {
 
 extension AddTrackerViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == emojiCollectionView {
-            return TrackerEmojis.emojis.count
-        } else {
-            return TrackerColors.colors.count
-        }
+        return collectionView == emojiCollectionView
+            ? TrackerEmojis.emojis.count
+            : TrackerColors.colors.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -433,7 +429,7 @@ extension AddTrackerViewController: UICollectionViewDelegate, UICollectionViewDa
                 withReuseIdentifier: "EmojiCell",
                 for: indexPath
             ) as? EmojiCell else {
-                print("[AddTrackerViewController]: :\(#line)] \(#function) Error unwrapping EmojiCell")
+                AppLogger.shared.error("[AddTrackerViewController]: :\(#line)] \(#function) Error unwrapping EmojiCell")
                 return UICollectionViewCell()
             }
             cell.configure(with: TrackerEmojis.emojis[indexPath.item])
@@ -443,7 +439,7 @@ extension AddTrackerViewController: UICollectionViewDelegate, UICollectionViewDa
                 withReuseIdentifier: "ColorCell",
                 for: indexPath
             ) as? ColorCell else {
-                print("[AddTrackerViewController]: :\(#line)] \(#function) Error unwrapping ColorCell")
+                AppLogger.shared.error("[AddTrackerViewController]: :\(#line)] \(#function) Error unwrapping ColorCell")
                 return UICollectionViewCell()
             }
             cell.configure(with: TrackerColors.colors[indexPath.item])
@@ -454,11 +450,11 @@ extension AddTrackerViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == emojiCollectionView {
             selectedEmoji = TrackerEmojis.emojis[indexPath.item]
-            print("[AddTrackerViewController]: :\(#line)] \(#function) selected emoji: \(selectedEmoji ?? "")")
+            AppLogger.shared.info("[AddTrackerViewController]: :\(#line)] \(#function) selected emoji: \(selectedEmoji ?? "")")
             
         } else if collectionView == colorCollectionView {
             selectedColor = TrackerColors.colors[indexPath.item]
-            print("[AddTrackerViewController]: :\(#line)] \(#function) selected color: \(selectedColor?.description ?? "")")
+            AppLogger.shared.info("[AddTrackerViewController]: :\(#line)] \(#function) selected color: \(selectedColor?.description ?? "")")
         }
         updateCreateButtonState()
     }

@@ -1,4 +1,5 @@
 import UIKit
+import Logging
 
 protocol TrackersViewControllerProtocol: AnyObject {
     var presenter: TrackersPresenterProtocol? { get set }
@@ -165,7 +166,7 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
         do {
             try trackerStore.addNewTracker(newTracker, to: category)
         } catch {
-            print("❌ [TrackersViewController]:\(#line)] \(#function) error: \(error)")
+            AppLogger.shared.error("[TrackersViewController]:\(#line)] \(#function) error: \(error)")
         }
     }
     
@@ -175,7 +176,7 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
         do {
             try recordStore.addRecord(newRecord)
         } catch {
-            print("❌ [TrackersViewController]:\(#line)] \(#function) error: \(error)")
+            AppLogger.shared.error("[TrackersViewController]:\(#line)] \(#function) error: \(error)")
         }
     }
     
@@ -184,7 +185,7 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
         do {
             try recordStore.deleteRecord(oldRecord)
         } catch {
-            print("❌ [TrackersViewController]:\(#line)] \(#function) error: \(error)")
+            AppLogger.shared.error("[TrackersViewController]:\(#line)] \(#function) error: \(error)")
         }
     }
     
@@ -238,12 +239,11 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
             let filteredTrackersInCategory = category.trackers.filter { tracker in
                 return tracker.schedule.contains(selectedWeekDay)
             }
-            if !filteredTrackersInCategory.isEmpty {
-                let newCategory = TrackerCategory(title: category.title, trackers:
-                                                    filteredTrackersInCategory)
-                newVisibleCategories.append(newCategory)
-                newFilteredTrackers.append(contentsOf: filteredTrackersInCategory)
-            }
+            guard !filteredTrackersInCategory.isEmpty else { continue }
+            newVisibleCategories.append(
+                TrackerCategory(title: category.title, trackers: filteredTrackersInCategory)
+            )
+            newFilteredTrackers.append(contentsOf: filteredTrackersInCategory)
         }
         self.filteredTrackers = newFilteredTrackers
         self.visibleCategories = newVisibleCategories

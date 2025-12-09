@@ -1,5 +1,6 @@
 import UIKit
 import CoreData
+import Logging
 
 final class TrackerStore: NSObject {
     
@@ -24,7 +25,7 @@ final class TrackerStore: NSObject {
         do {
             try fetchedResultsController.performFetch()
         } catch {
-            print("❌ [TrackerStore]:\(#line)] \(#function) unable to get Trackers: \(error.localizedDescription)")
+            AppLogger.shared.error("[TrackerStore]:\(#line)] \(#function) unable to get Trackers: \(error.localizedDescription)")
         }
         
         return fetchedResultsController
@@ -39,7 +40,7 @@ final class TrackerStore: NSObject {
     // MARK: - Public Methods
     func fetchTrackers() -> [Tracker] {
         guard let objects = fetchedResultsController.fetchedObjects else { return [] }
-        return objects.compactMap { self.mapToTracker($0) }
+        return objects.compactMap { mapToTracker($0) }
     }
     
     func addNewTracker(_ tracker: Tracker, to category: TrackerCategoryCoreData) throws {
@@ -50,12 +51,9 @@ final class TrackerStore: NSObject {
         do {
             try context.save()
         } catch {
-            print("❌ [TrackerStore] Failed to save tracker: \(error)")
+            AppLogger.shared.error("[TrackerStore] Failed to save tracker: \(error)")
             throw error
         }
-        print(context.insertedObjects)
-        print(context.updatedObjects)
-        print(context.deletedObjects)
     }
     
     // MARK: - Private Methods
@@ -115,6 +113,6 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
         newIndexPath: IndexPath?
     ) {
         guard let trackers = controller.fetchedObjects as? [TrackerCoreData] else { return }
-        delegate?.storeDidUpdate(trackers.compactMap { self.mapToTracker($0) })
+        delegate?.storeDidUpdate(trackers.compactMap { mapToTracker($0) })
     }
 }

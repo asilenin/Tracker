@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4792D8052EE81D3900E3D274 /* InMemoryLogging in Frameworks */ = {isa = PBXBuildFile; productRef = 4792D8042EE81D3900E3D274 /* InMemoryLogging */; };
+		4792D8072EE81D3900E3D274 /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 4792D8062EE81D3900E3D274 /* Logging */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		47AAA4452EBA6A4000A5B2B9 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4792D8072EE81D3900E3D274 /* Logging in Frameworks */,
+				4792D8052EE81D3900E3D274 /* InMemoryLogging in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = Tracker;
 			packageProductDependencies = (
+				4792D8042EE81D3900E3D274 /* InMemoryLogging */,
+				4792D8062EE81D3900E3D274 /* Logging */,
 			);
 			productName = Tracker;
 			productReference = 47AAA4452EBA6A4000A5B2B9 /* Tracker.app */;
@@ -107,6 +116,9 @@
 			);
 			mainGroup = 47AAA43C2EBA6A4000A5B2B9;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4792D8032EE81D3900E3D274 /* XCRemoteSwiftPackageReference "swift-log" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 47AAA4462EBA6A4000A5B2B9 /* Products */;
 			projectDirPath = "";
@@ -343,6 +355,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4792D8032EE81D3900E3D274 /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log?tab=readme-ov-file";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4792D8042EE81D3900E3D274 /* InMemoryLogging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4792D8032EE81D3900E3D274 /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = InMemoryLogging;
+		};
+		4792D8062EE81D3900E3D274 /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4792D8032EE81D3900E3D274 /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 47AAA43D2EBA6A4000A5B2B9 /* Project object */;
 }

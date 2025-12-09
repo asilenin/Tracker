@@ -1,4 +1,5 @@
 import CoreData
+import Logging
 
 final class CoreDataManager {
     
@@ -13,9 +14,9 @@ final class CoreDataManager {
         
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                print("❌ [CoreDataManager]:\(#line)] \(#function) Error loading store CoreData: \(error), \(error.userInfo)")
+                AppLogger.shared.error("[CoreDataManager]:\(#line)] \(#function) Error loading store CoreData: \(error), \(error.userInfo)")
             } else {
-                print("✅ [CoreDataManager]:\(#line)] \(#function) Store CoreData load success")
+                AppLogger.shared.notice("[CoreDataManager]:\(#line)] \(#function) Store CoreData load success")
             }
         })
         
@@ -37,7 +38,7 @@ final class CoreDataManager {
             do {
                 try context.save()
             } catch {
-                print("❌ [CoreDataManager]:\(#line)] \(#function) Error saving context: \(error)")
+                AppLogger.shared.error("[CoreDataManager]:\(#line)] \(#function) Error saving context: \(error)")
                 context.rollback()
             }
         }

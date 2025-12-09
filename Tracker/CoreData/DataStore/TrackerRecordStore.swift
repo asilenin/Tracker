@@ -1,4 +1,5 @@
 import CoreData
+import Logging
 
 final class TrackerRecordStore: NSObject {
     
@@ -23,7 +24,7 @@ final class TrackerRecordStore: NSObject {
         do {
             try fetchedResultsController.performFetch()
         } catch {
-            print("❌ [TrackerRecordStore]:\(#line)] \(#function) unable fetch results: \(error.localizedDescription)")
+            AppLogger.shared.error("[TrackerRecordStore]:\(#line)] \(#function) unable fetch results: \(error.localizedDescription)")
         }
         
         return fetchedResultsController
@@ -38,7 +39,7 @@ final class TrackerRecordStore: NSObject {
     // MARK: - Public Methods
     func fetchRecords() -> [TrackerRecord] {
         guard let objects = fetchedResultsController.fetchedObjects else { return [] }
-        return objects.compactMap { self.mapToRecord($0) }
+        return objects.compactMap { mapToRecord($0) }
     }
     
     func addRecord(_ record: TrackerRecord) throws {
@@ -48,7 +49,7 @@ final class TrackerRecordStore: NSObject {
         trackerRequest.predicate = NSPredicate(format: "id == %@", record.trackerId as CVarArg)
         
         guard let trackerObject = try context.fetch(trackerRequest).first else {
-            print("❌ [TrackerRecordStore]:\(#line)] \(#function) Tracked id=\(record.trackerId) not found in DB")
+            AppLogger.shared.error("[TrackerRecordStore]:\(#line)] \(#function) Tracked id=\(record.trackerId) not found in DB")
             throw NSError(domain: "TrackerRecordStore", code: 1, userInfo: [
                 NSLocalizedDescriptionKey: "Tracker with id \(record.trackerId) not found"
             ])
@@ -96,7 +97,7 @@ final class TrackerRecordStore: NSObject {
         do {
             try context.save()
         } catch {
-            print("❌ [TrackerRecordStore]:\(#line)] \(#function) toggleRecord save error: \(error)")
+            AppLogger.shared.error("[TrackerRecordStore]:\(#line)] \(#function) toggleRecord save error: \(error)")
         }
     }
     
@@ -155,6 +156,6 @@ extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
         newIndexPath: IndexPath?
     ) {
         guard let records = controller.fetchedObjects as? [TrackerRecordCoreData] else { return }
-        delegate?.storeDidUpdate(records.compactMap { self.mapToRecord($0) })
+        delegate?.storeDidUpdate(records.compactMap { mapToRecord($0) })
     }
 }

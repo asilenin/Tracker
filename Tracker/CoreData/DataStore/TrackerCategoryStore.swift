@@ -1,5 +1,6 @@
 import UIKit
 import CoreData
+import Logging
 
 final class TrackerCategoryStore: NSObject {
     
@@ -24,7 +25,7 @@ final class TrackerCategoryStore: NSObject {
         do {
             try fetchedResultsController.performFetch()
         } catch {
-            print("❌ [TrackerRecordStore]:\(#line)] \(#function) unable fetch results: \(error.localizedDescription)")
+            AppLogger.shared.error("[TrackerRecordStore]:\(#line)] \(#function) unable fetch results: \(error.localizedDescription)")
         }
         
         return fetchedResultsController
@@ -40,7 +41,7 @@ final class TrackerCategoryStore: NSObject {
     // MARK: - Public Methods
     func fetchCategories() -> [TrackerCategory] {
         if let objects = fetchedResultsController.fetchedObjects, !objects.isEmpty {
-            return objects.compactMap { self.mapToCategory($0) }
+            return objects.compactMap { mapToCategory($0) }
         }
         
         let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
@@ -48,9 +49,9 @@ final class TrackerCategoryStore: NSObject {
         
         do {
             let objects = try context.fetch(request)
-            return objects.compactMap { self.mapToCategory($0) }
+            return objects.compactMap { mapToCategory($0) }
         } catch {
-            print("❌ [TrackerRecordStore]:\(#line)] \(#function) Unable to fetch Categories: \(error.localizedDescription)")
+            AppLogger.shared.error("[TrackerRecordStore]:\(#line)] \(#function) Unable to fetch Categories: \(error.localizedDescription)")
             return []
         }
     }
@@ -67,7 +68,7 @@ final class TrackerCategoryStore: NSObject {
         do {
             try context.save()
         } catch {
-            print("❌ [TrackerCategoryStore] Unable to save new category: \(error)")
+            AppLogger.shared.error("[TrackerCategoryStore] Unable to save new category: \(error)")
         }
         delegate?.storeDidUpdate(fetchCategories())
         
@@ -79,12 +80,12 @@ final class TrackerCategoryStore: NSObject {
         let entity = addNewCategory(with: category.title)
         
         if !category.trackers.isEmpty {
-            let coreTrackers = category.trackers.map { self.mapToCoreData($0) }
+            let coreTrackers = category.trackers.map { mapToCoreData($0) }
             entity.trackers = NSSet(array: coreTrackers)
             do {
                 try context.save()
             } catch {
-                print("❌ [TrackerCategoryStore]:\(#line)] \(#function) Unable to save category with trackers: \(error.localizedDescription)")
+                AppLogger.shared.error("[TrackerCategoryStore]:\(#line)] \(#function) Unable to save category with trackers: \(error.localizedDescription)")
             }
         }
         
@@ -104,7 +105,7 @@ final class TrackerCategoryStore: NSObject {
         do {
             return try context.fetch(request).first
         } catch {
-            print("❌ [TrackerCategoryStore]:\(#line)] \(#function) unable to fetch CoreData category: \(error.localizedDescription)")
+            AppLogger.shared.error("[TrackerCategoryStore]:\(#line)] \(#function) unable to fetch CoreData category: \(error.localizedDescription)")
             return nil
         }
     }
@@ -113,7 +114,7 @@ final class TrackerCategoryStore: NSObject {
     private func mapToCategory(_ object: TrackerCategoryCoreData) -> TrackerCategory? {
         guard let title = object.title else { return nil }
         let trackers = (object.trackers as? Set<TrackerCoreData>)?
-            .compactMap { self.mapToTracker($0) } ?? []
+            .compactMap { mapToTracker($0) } ?? []
         return TrackerCategory(title: title, trackers: trackers)
     }
     
@@ -152,7 +153,7 @@ final class TrackerCategoryStore: NSObject {
                 return existing
             }
         } catch {
-            print("❌ [TrackerRecordStore]:\(#line)] \(#function) Unable to map to CoreData \(error.localizedDescription)")
+            AppLogger.shared.error("[TrackerRecordStore]:\(#line)] \(#function) Unable to map to CoreData \(error.localizedDescription)")
         }
         
         let entity = TrackerCoreData(context: context)
