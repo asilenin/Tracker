@@ -34,6 +34,15 @@ enum UIScheduleConstants {
 }
 
 enum UICategoryConstants {
-    static let navigationTitle = "Категории"
-    static let doneButtonTitle = "Готово"
+    static let navigationTitle = "Категория"
+    static let addButtonTitle = "Добавить категорию"
+    static let clearTextLabel = "Привычки и события можно\n объединить по смыслу"
+    static let namePlaceholder = "Введите название категории"
+    static let title = "Новая категория"
+}
+
+enum UUIOnboardingConstants {
+    static let buttonTitle = "Вот это технологии!"
+    static let textOnboardingv1 = "Отслеживайте только то, что хотите"
+    static let textOnboardingv2 = "Даже если это\nне литры воды и йога"
 }

@@ -44,7 +44,6 @@ final class CategoryScheduleViewCell: UITableViewCell {
     }
     
     // MARK: - Constraints
-    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.heightAnchor.constraint(equalToConstant: 18),
@@ -58,7 +57,6 @@ final class CategoryScheduleViewCell: UITableViewCell {
     }
     
     // MARK: - Configuration
-    
     func configure(title: String, subtitle: String?) {
         titleLabel.text = title
         subtitleLabel.text = subtitle

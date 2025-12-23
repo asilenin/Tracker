@@ -9,6 +9,7 @@ final class TrackerCategoryStore: NSObject {
     
     // MARK: - Private Properties
     private let context: NSManagedObjectContext
+    private let trackerStore: TrackerStore
     
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
@@ -35,25 +36,14 @@ final class TrackerCategoryStore: NSObject {
     // MARK: - Inits
     override init() {
         self.context = CoreDataManager.shared.viewContext
+        self.trackerStore = TrackerStore()
         super.init()
     }
     
     // MARK: - Public Methods
     func fetchCategories() -> [TrackerCategory] {
-        if let objects = fetchedResultsController.fetchedObjects, !objects.isEmpty {
-            return objects.compactMap { mapToCategory($0) }
-        }
-        
-        let request: NSFetchRequest<TrackerCategoryCoreData> = TrackerCategoryCoreData.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        
-        do {
-            let objects = try context.fetch(request)
-            return objects.compactMap { mapToCategory($0) }
-        } catch {
-            AppLogger.shared.error("[TrackerRecordStore]:\(#line)] \(#function) Unable to fetch Categories: \(error.localizedDescription)")
-            return []
-        }
+        return fetchedResultsController.fetchedObjects?
+            .compactMap { mapToCategory($0) } ?? []
     }
     
     @discardableResult
@@ -63,14 +53,17 @@ final class TrackerCategoryStore: NSObject {
         }
         
         let entity = TrackerCategoryCoreData(context: context)
-        entity.title = title
+        
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTitle.isEmpty else { return entity }
+        entity.title = trimmedTitle
+        
         entity.trackers = NSSet()
         do {
             try context.save()
         } catch {
             AppLogger.shared.error("[TrackerCategoryStore] Unable to save new category: \(error)")
         }
-        delegate?.storeDidUpdate(fetchCategories())
         
         return entity
     }
@@ -89,7 +82,6 @@ final class TrackerCategoryStore: NSObject {
             }
         }
         
-        delegate?.storeDidUpdate(fetchCategories())
         return entity
     }
     
@@ -167,12 +159,10 @@ final class TrackerCategoryStore: NSObject {
 }
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
-    func controller(
-        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
-        didChange anObject: Any,
-        at indexPath: IndexPath?,
-        for type: NSFetchedResultsChangeType,
-        newIndexPath: IndexPath?
+
+    @objc
+    func controllerDidChangeContent(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>
     ) {
         delegate?.storeDidUpdate(fetchCategories())
     }
