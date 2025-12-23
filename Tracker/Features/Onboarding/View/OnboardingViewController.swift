@@ -32,8 +32,9 @@ final class OnboardingViewController: UIPageViewController {
         super.init(transitionStyle: .scroll, navigationOrientation: navigationOrientation, options: options)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        return nil
+        nil
     }
     
     // MARK: - Lifecycle
@@ -75,7 +76,7 @@ final class OnboardingViewController: UIPageViewController {
     
     // MARK: - Private Methods
     @objc private func tapButton() {
-        UserDefaults.standard.set(true, forKey: "onboardingCompleted")
+        UserDefaultsService.shared.isOnboardingCompleted = true
         onboardingCompletionHandler?()
     }
 }

@@ -86,13 +86,9 @@ final class AddCategoryViewController: UIViewController {
 // MARK: - UITextFieldDelegate
 extension AddCategoryViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let text = textField.text, !text.isEmpty {
-            doneButton.isEnabled = true
-            doneButton.backgroundColor = .black
-        } else {
-            doneButton.isEnabled = false
-            doneButton.backgroundColor = .gray
-        }
+        let isEnabled = !(textField.text?.isEmpty ?? true)
+        doneButton.isEnabled = isEnabled
+        doneButton.backgroundColor = isEnabled ? .blackYP : .greyYP
         return true
     }
     

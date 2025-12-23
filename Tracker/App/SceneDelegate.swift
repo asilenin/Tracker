@@ -15,14 +15,17 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
     }
     
-    private func selectVC() -> UIViewController{
-        
-        let onboardingCompleted = UserDefaults.standard.bool(forKey: "onboardingCompleted")
-        
+    private func selectVC() -> UIViewController {
+
+        let onboardingCompleted = UserDefaultsService.shared.isOnboardingCompleted
+
         if onboardingCompleted {
             return TabBarController()
         } else {
-            let onboardingVC = OnboardingViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+            let onboardingVC = OnboardingViewController(
+                transitionStyle: .scroll,
+                navigationOrientation: .horizontal
+            )
             onboardingVC.onboardingCompletionHandler = { [weak self] in
                 self?.switchToTabBar()
             }
@@ -39,4 +42,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         transition.duration = 0.3
         window?.layer.add(transition, forKey: kCATransition)
     }
+    
 }
+

@@ -4,7 +4,9 @@ final class CategoryViewCell: UITableViewCell {
     static let reuseIdentifier = "CategoryViewCell"
     
     // MARK: - Private Properties
-    private var bottomSeparatorHeightConstraint: NSLayoutConstraint!
+    private lazy var bottomSeparatorHeightConstraint: NSLayoutConstraint = {
+        bottomSeparator.heightAnchor.constraint(equalToConstant: pixelHeight)
+    }()
     private var pixelHeight: CGFloat { 1.5 / UIScreen.main.scale }
     
     // MARK: - Initializers
@@ -62,7 +64,6 @@ final class CategoryViewCell: UITableViewCell {
     }
     
     private func setupConstraints() {
-        bottomSeparatorHeightConstraint = bottomSeparator.heightAnchor.constraint(equalToConstant: pixelHeight)
         NSLayoutConstraint.activate([
             bottomSeparator.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             bottomSeparator.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
@@ -76,7 +77,6 @@ final class CategoryViewCell: UITableViewCell {
             checkmarkImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             checkmarkImageView.widthAnchor.constraint(equalToConstant: 20),
             checkmarkImageView.heightAnchor.constraint(equalToConstant: 20)
-        
         ])
     }
     

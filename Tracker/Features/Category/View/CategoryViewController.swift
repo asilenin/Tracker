@@ -24,20 +24,60 @@ final class CategoryViewController: UIViewController{
     }
     
     // MARK: - UI Elements
-    private let tableView = UITableView()
-    private let doneButton = UIButton()
-    private var clearImageView = UIImageView()
-    private let clearTextLabel = UILabel()
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.separatorStyle = .singleLine
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.tableHeaderView = UIView(
+            frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude)
+        )
+        tableView.tableFooterView = UIView()
+        tableView.layer.cornerRadius = 16
+        tableView.layer.masksToBounds = true
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(
+            CategoryViewCell.self,
+            forCellReuseIdentifier: CategoryViewCell.reuseIdentifier
+        )
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    private lazy var doneButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(UICategoryConstants.addButtonTitle, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .blackYP
+        button.layer.cornerRadius = 16
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    private lazy var clearImageView: UIImageView = {
+        let imageView = UIImageView(image: .clearListStar)
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .blackYP
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    private lazy var clearTextLabel: UILabel = {
+        let label = UILabel()
+        label.text = UICategoryConstants.clearTextLabel
+        label.numberOfLines = 2
+        label.textColor = .blackYP
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         setupView()
-        setupTableView()
-        setupDoneButton()
-        setupClearImageView()
-        setupClearTextLabel()
         setupConstraints()
         bindViewModel()
         
@@ -55,66 +95,11 @@ final class CategoryViewController: UIViewController{
             .foregroundColor: UIColor.black
         ]
         navigationController?.navigationBar.titleTextAttributes = title
-    }
-    
-    private func setupClearTextLabel() {
-        clearTextLabel.text = UICategoryConstants.clearTextLabel
-        clearTextLabel.numberOfLines = 2
-        clearTextLabel.textColor = .blackYP
-        clearTextLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        clearTextLabel.textAlignment = .center
-        clearTextLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(clearTextLabel)
-    }
-    
-    private func setupClearImageView() {
-        clearImageView.image = .clearListStar
-        clearImageView.translatesAutoresizingMaskIntoConstraints = false
-        clearImageView.contentMode = .scaleAspectFit
-        clearImageView.tintColor = .blackYP
-        view.addSubview(clearImageView)
-    }
-    
-    private func setupTableView() {
-        tableView.separatorStyle = .singleLine
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
-        tableView.tableFooterView = UIView()
-        tableView.layer.cornerRadius = 16
-        tableView.layer.masksToBounds = true
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(CategoryViewCell.self, forCellReuseIdentifier: CategoryViewCell.reuseIdentifier)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(tableView)
-    }
-    
-    /**
-     private func setupTableView() {
-         tableView.separatorStyle = .singleLine
-         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
-         tableView.layer.cornerRadius = 16
-         tableView.layer.masksToBounds = true
-         tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-         tableView.delegate = self
-         tableView.dataSource = self
-         tableView.register(ScheduleCell.self, forCellReuseIdentifier: ScheduleCell.reuseIdentifier)
-         tableView.translatesAutoresizingMaskIntoConstraints = false
-         view.addSubview(tableView)
-     }
-     */
-    
-    private func setupDoneButton() {
-        doneButton.setTitle(UICategoryConstants.addButtonTitle, for: .normal)
-        doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        doneButton.setTitleColor(.white, for: .normal)
-        doneButton.backgroundColor = .blackYP
-        doneButton.layer.cornerRadius = 16
-        doneButton.layer.masksToBounds = true
-        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
-        doneButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(doneButton)
+        view.addSubview(clearImageView)
+        view.addSubview(clearTextLabel)
     }
     
     private func setupConstraints() {
@@ -207,7 +192,6 @@ extension CategoryViewController: UITableViewDataSource {
         }
         
         cell.contentView.backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
-        let backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
 
         let model = viewModel.cellModel(at: indexPath)
 
