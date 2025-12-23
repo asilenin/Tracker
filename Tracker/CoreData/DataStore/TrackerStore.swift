@@ -82,7 +82,7 @@ final class TrackerStore: NSObject {
     }
     
     // MARK: - Private Methods
-    private func mapToTracker(_ object: TrackerCoreData) -> Tracker? {
+    func mapToTracker(_ object: TrackerCoreData) -> Tracker? {
         guard
             let id = object.id,
             let name = object.name,

@@ -9,18 +9,15 @@ final class ScheduleViewController: UIViewController {
     weak var delegate: ScheduleViewControllerDelegate?
     
     // MARK: - Properties
-    
     var switchButton: [Int : Bool] = [:]
     var selectedSchedule: [Weekday] = []
     var onScheduleSelected: (([Weekday]) -> Void)?
     
     // MARK: - UI Elements
-    
     private var tableView = UITableView()
     private let doneButton = UIButton()
     
     // MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -30,7 +27,6 @@ final class ScheduleViewController: UIViewController {
     }
     
     // MARK: - Setup UI
-    
     private func setupView() {
         tableView.tableFooterView = UIView()
         view.backgroundColor = .white
@@ -82,15 +78,12 @@ final class ScheduleViewController: UIViewController {
     }
     
     // MARK: - Actions
-    
     @objc private func doneButtonTapped() {
         onScheduleSelected?(selectedSchedule)
         delegate?.didUpdateSchedule(selectedSchedule: selectedSchedule)
         dismiss(animated: true, completion: nil)
     }
 }
-
-// MARK: - UITableViewDataSource
 
 extension ScheduleViewController: UITableViewDataSource {
     
@@ -121,8 +114,6 @@ extension ScheduleViewController: UITableViewDataSource {
         return cell
     }
 }
-
-// MARK: - UITableViewDelegate
 
 extension ScheduleViewController: UITableViewDelegate {
     

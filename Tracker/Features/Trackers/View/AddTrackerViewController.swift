@@ -388,10 +388,14 @@ extension AddTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 {
-            let categoryViewController = CategoryViewController()
-            categoryViewController.categories = categories
+            let viewModel = CategoryViewModel(
+                trackerCategoryStore: TrackerCategoryStore(),
+                selectedCategoryTitle: selectedCategory
+            )
+
+            let categoryViewController = CategoryViewController(viewModel: viewModel)
             categoryViewController.delegate = self
-            categoryViewController.selectedCategory = selectedCategory
+
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else if indexPath.row == 1 {
             let scheduleViewController = ScheduleViewController()
