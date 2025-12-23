@@ -76,7 +76,8 @@ final class CategoryViewController: UIViewController{
     }
     
     private func setupTableView() {
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
         tableView.tableFooterView = UIView()
         tableView.layer.cornerRadius = 16
@@ -87,6 +88,22 @@ final class CategoryViewController: UIViewController{
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
     }
+    
+    /**
+     private func setupTableView() {
+         tableView.separatorStyle = .singleLine
+         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+         tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude))
+         tableView.layer.cornerRadius = 16
+         tableView.layer.masksToBounds = true
+         tableView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+         tableView.delegate = self
+         tableView.dataSource = self
+         tableView.register(ScheduleCell.self, forCellReuseIdentifier: ScheduleCell.reuseIdentifier)
+         tableView.translatesAutoresizingMaskIntoConstraints = false
+         view.addSubview(tableView)
+     }
+     */
     
     private func setupDoneButton() {
         doneButton.setTitle(UICategoryConstants.addButtonTitle, for: .normal)
@@ -181,16 +198,16 @@ extension CategoryViewController: UITableViewDataSource {
         return viewModel.categories.count
     }
     
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: CategoryViewCell.reuseIdentifier,
             for: indexPath
         ) as? CategoryViewCell else {
             return UITableViewCell()
         }
+        
+        cell.contentView.backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
+        let backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
 
         let model = viewModel.cellModel(at: indexPath)
 
