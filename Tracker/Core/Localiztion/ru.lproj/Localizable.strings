@@ -1,0 +1,32 @@
+"UIConstants.trackerCollectionViewLabel" = "Трекеры";
+"UIConstants.statisticsViewLabel" = "Статистика";
+
+"UITrackersVCConstants.title" = "Трекеры";
+"UITrackersVCConstants.clearTextLabel" = "Что будем отслеживать?";
+"UITrackersVCConstants.searchBarPlaceholder" = "Поиск";
+
+"UIHabitTrackerConstants.errorMessage" = "Ограничение 38 символов";
+"UIHabitTrackerConstants.sectionCategory" = "Категория";
+"UIHabitTrackerConstants.sectionSchedule" = "Расписание";
+"UIHabitTrackerConstants.categoryImportant" = "Важное";
+"UIHabitTrackerConstants.categoryUnimportant" = "Неважное";
+"UIHabitTrackerConstants.title" = "Новая привычка";
+"UIHabitTrackerConstants.namePlaceholder" = "Введите название трекера";
+"UIHabitTrackerConstants.createButtonLabel" = "Создать";
+"UIHabitTrackerConstants.cancelButtonLabel" = "Отменить";
+"UIHabitTrackerConstants.emojiTitle" = "Emoji";
+"UIHabitTrackerConstants.colorTitle" = "Цвет";
+"UIHabitTrackerConstants.everyDay" = "Каждый день";
+
+"UIScheduleConstants.navigationTitle" = "Расписание";
+"UIScheduleConstants.doneButtonTitle" = "Готово";
+
+"UICategoryConstants.navigationTitle" = "Категория";
+"UICategoryConstants.addButtonTitle" = "Добавить категорию";
+"UICategoryConstants.clearTextLabel" = "Привычки и события можно\n объединить по смыслу";
+"UICategoryConstants.namePlaceholder" = "Введите название категории";
+"UICategoryConstants.title" = "Новая категория";
+
+"UUIOnboardingConstants.buttonTitle" = "Вот это технологии!";
+"UUIOnboardingConstants.textOnboardingv1" = "Отслеживайте только то, что хотите";
+"UUIOnboardingConstants.textOnboardingv2" = "Даже если это\nне литры воды и йога";

@@ -1,0 +1,32 @@
+"UIConstants.trackerCollectionViewLabel" = "Trackers";
+"UIConstants.statisticsViewLabel" = "Statistics";
+
+"UITrackersVCConstants.title" = "Trackers";
+"UITrackersVCConstants.clearTextLabel" = "What would you like to track?";
+"UITrackersVCConstants.searchBarPlaceholder" = "Search";
+
+"UIHabitTrackerConstants.errorMessage" = "Maximum 38 characters";
+"UIHabitTrackerConstants.sectionCategory" = "Category";
+"UIHabitTrackerConstants.sectionSchedule" = "Schedule";
+"UIHabitTrackerConstants.categoryImportant" = "Important";
+"UIHabitTrackerConstants.categoryUnimportant" = "Unimportant";
+"UIHabitTrackerConstants.title" = "New Habit";
+"UIHabitTrackerConstants.namePlaceholder" = "Enter tracker name";
+"UIHabitTrackerConstants.createButtonLabel" = "Create";
+"UIHabitTrackerConstants.cancelButtonLabel" = "Cancel";
+"UIHabitTrackerConstants.emojiTitle" = "Emoji";
+"UIHabitTrackerConstants.colorTitle" = "Color";
+"UIHabitTrackerConstants.everyDay" = "Every day";
+
+"UIScheduleConstants.navigationTitle" = "Schedule";
+"UIScheduleConstants.doneButtonTitle" = "Done";
+
+"UICategoryConstants.navigationTitle" = "Category";
+"UICategoryConstants.addButtonTitle" = "Add category";
+"UICategoryConstants.clearTextLabel" = "Habits and events can be\ngrouped by meaning";
+"UICategoryConstants.namePlaceholder" = "Enter category name";
+"UICategoryConstants.title" = "New Category";
+
+"UUIOnboardingConstants.buttonTitle" = "That's some tech!";
+"UUIOnboardingConstants.textOnboardingv1" = "Track only what you want";
+"UUIOnboardingConstants.textOnboardingv2" = "Even if it's not\nwater intake or yoga";
