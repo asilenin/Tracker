@@ -27,6 +27,7 @@ final class CategoryViewController: UIViewController{
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .singleLine
+        tableView.separatorColor = .greyYP
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.tableHeaderView = UIView(
             frame: CGRect(x: 0, y: 0, width: 0, height: CGFloat.leastNormalMagnitude)
@@ -40,6 +41,7 @@ final class CategoryViewController: UIViewController{
             CategoryViewCell.self,
             forCellReuseIdentifier: CategoryViewCell.reuseIdentifier
         )
+        tableView.backgroundColor = .backgroundTableYP
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -47,7 +49,7 @@ final class CategoryViewController: UIViewController{
         let button = UIButton()
         button.setTitle(UICategoryConstants.addButtonTitle, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.whiteYP, for: .normal)
         button.backgroundColor = .blackYP
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
@@ -83,16 +85,15 @@ final class CategoryViewController: UIViewController{
         
         tableView.reloadData()
         updateClearView()
-        refreshCustomSeparators()
     }
     
     // MARK: - Setup UI
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .whiteYP
         navigationItem.title = UICategoryConstants.navigationTitle
         let title: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: 16, weight: .medium),
-            .foregroundColor: UIColor.black
+            .foregroundColor: UIColor.blackYP
         ]
         navigationController?.navigationBar.titleTextAttributes = title
         
@@ -138,7 +139,6 @@ final class CategoryViewController: UIViewController{
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.updateClearView()
-                self?.refreshCustomSeparators()
             }
         }
     }
@@ -156,16 +156,6 @@ final class CategoryViewController: UIViewController{
                 cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             } else {
                 cell.layer.maskedCorners = []
-            }
-        }
-    }
-    
-    private func refreshCustomSeparators() {
-        guard let visibleIndexPaths = tableView.indexPathsForVisibleRows else { return }
-        for indexPath in visibleIndexPaths {
-            if let cell = tableView.cellForRow(at: indexPath) as? CategoryViewCell {
-                let lastRow = tableView.numberOfRows(inSection: indexPath.section) - 1
-                cell.setSeparatorHidden(indexPath.row == lastRow)
             }
         }
     }
@@ -191,7 +181,7 @@ extension CategoryViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.contentView.backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
+        cell.contentView.backgroundColor = UIColor(resource: .backgroundTableYP)
 
         let model = viewModel.cellModel(at: indexPath)
 

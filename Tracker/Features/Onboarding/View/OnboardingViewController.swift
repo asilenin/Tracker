@@ -18,8 +18,8 @@ final class OnboardingViewController: UIPageViewController {
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
         pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.currentPageIndicatorTintColor = .blackYP
-        pageControl.pageIndicatorTintColor = .blackNotSelectYP
+        pageControl.currentPageIndicatorTintColor = .alwaysBlackYP
+        pageControl.pageIndicatorTintColor = .alwaysBlackNotSelectYP
         return pageControl
     }()
     
@@ -52,11 +52,11 @@ final class OnboardingViewController: UIPageViewController {
     
     // MARK: - Setup UI
     private func setupButton() {
-        button.backgroundColor = .blackYP
+        button.backgroundColor = .alwaysBlackYP
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
         button.setTitle(UUIOnboardingConstants.buttonTitle, for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.alwaysWhiteYP, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

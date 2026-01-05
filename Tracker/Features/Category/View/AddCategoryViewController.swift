@@ -20,7 +20,7 @@ final class AddCategoryViewController: UIViewController {
         setupView()
         setupConstraints()
         doneButton.isEnabled = false
-        doneButton.backgroundColor = .gray
+        doneButton.backgroundColor = .blackYP
     }
     
     // MARK: - Actions
@@ -34,7 +34,7 @@ final class AddCategoryViewController: UIViewController {
     // MARK: - Setup UI
     private func setupTextField() {
         textField.placeholder = UICategoryConstants.namePlaceholder
-        textField.backgroundColor = .backgroundYP
+        textField.backgroundColor = .backgroundTableYP
         textField.layer.cornerRadius = 16
         textField.layer.masksToBounds = true
         textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -52,11 +52,11 @@ final class AddCategoryViewController: UIViewController {
     }
     
     private func setupDoneButton() {
-        doneButton.backgroundColor = .black
+        doneButton.backgroundColor = .blackYP
         doneButton.layer.cornerRadius = 16
         doneButton.layer.masksToBounds = true
-        doneButton.setTitle("Готово", for: .normal)
-        doneButton.setTitleColor(.white, for: .normal)
+        doneButton.setTitle(UIScheduleConstants.doneButtonTitle, for: .normal)
+        doneButton.setTitleColor(.whiteYP, for: .normal)
         doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +65,7 @@ final class AddCategoryViewController: UIViewController {
     
     private func setupView() {
         navigationItem.title = UICategoryConstants.title
-        view.backgroundColor = .white
+        view.backgroundColor = .whiteYP
     }
     
     // MARK: - Setup Constraints

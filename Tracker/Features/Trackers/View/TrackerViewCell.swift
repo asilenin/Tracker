@@ -42,7 +42,7 @@ final class TrackerViewCell: UICollectionViewCell {
     
     // MARK: - Setup UI Elements
     private func setupCardView() {
-        cardView.backgroundColor = UIColor(resource: .greenYP)
+        cardView.backgroundColor = .greenYP
         cardView.layer.cornerRadius = 16
         cardView.clipsToBounds = true
         cardView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,14 +52,14 @@ final class TrackerViewCell: UICollectionViewCell {
     private func setupTextLabel() {
         textLabel.numberOfLines = 0
         titleLabel.contentMode = .bottom
-        textLabel.textColor = UIColor(resource: .whiteYP)
+        textLabel.textColor = .whiteYP
         textLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(textLabel)
     }
     
     private func setupEmojiLabel() {
-        emojiLabel.textColor = UIColor(resource: .blackYP)
+        emojiLabel.textColor = .blackYP
         emojiLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         emojiLabel.backgroundColor = .white.withAlphaComponent(0.3)
         emojiLabel.layer.cornerRadius = 12
@@ -69,14 +69,14 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     private func setupCounterLabel() {
-        counterLabel.textColor = UIColor(resource: .blackYP)
+        counterLabel.textColor = .blackYP
         counterLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         counterLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(counterLabel)
     }
     
     private func setupTitleLabel() {
-        titleLabel.textColor = UIColor(resource: .blackYP)
+        titleLabel.textColor = .blackYP
         titleLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         titleLabel.contentMode = .left
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -87,8 +87,8 @@ final class TrackerViewCell: UICollectionViewCell {
         addButton.setImage(UIImage(systemName: "plus"), for: .normal)
         let checkmarkImage = UIImage(systemName: "checkmark")
         addButton.setImage(checkmarkImage, for: .selected)
-        addButton.tintColor = UIColor(resource: .whiteYP)
-        addButton.backgroundColor = UIColor(resource: .greenYP)
+        addButton.tintColor = .whiteYP
+        addButton.backgroundColor = .greenYP
         addButton.layer.cornerRadius = 16
         addButton.clipsToBounds = true
         addButton.contentMode = .scaleAspectFit
@@ -175,7 +175,7 @@ final class TrackerViewCell: UICollectionViewCell {
         updateAddButtonView(isCompleted: isCompleted)
         addButton.isSelected = isCompleted
         
-        titleLabel.isHidden = path.row != 0      // ← fixed
+        titleLabel.isHidden = path.row != 0
         titleLabel.text = categoryTitle
         
         if isFutureDate {
@@ -192,9 +192,9 @@ final class TrackerViewCell: UICollectionViewCell {
         let image = isCompleted ? UIImage(named: "Plus") : UIImage(systemName: "plus")
         addButton.setImage(image, for: .normal)
         if isFutureDate {
-            addButton.backgroundColor = UIColor.gray
+            addButton.backgroundColor = .greyYP
         } else {
-            addButton.backgroundColor = isCompleted ? UIColor(resource: .greenYP).withAlphaComponent(0.3) : UIColor(resource: .greenYP)
+            addButton.backgroundColor = isCompleted ? .greenYP.withAlphaComponent(0.3) : .greenYP
         }
     }
     
@@ -206,18 +206,10 @@ final class TrackerViewCell: UICollectionViewCell {
     }
     
     private func updateCounterLabelText(completedDays: Int){
-        let days = completedDays % 100
-        if (11...14).contains(days) {
-            counterLabel.text = "\(completedDays) дней"
-        } else {
-            switch days % 10 {
-            case 1:
-                counterLabel.text = "\(completedDays) день"
-            case 2...4:
-                counterLabel.text = "\(completedDays) дня"
-            default:
-                counterLabel.text = "\(completedDays) дней"
-            }
-        }
-    }
+        counterLabel.text = String.localizedStringWithFormat(
+            NSLocalizedString("numberOfDays", comment: "Number of days"),
+            completedDays
+        )
+     }
 }
+

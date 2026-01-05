@@ -70,13 +70,13 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     
     // MARK: - Configuration
     private func setupView() {
-        view.backgroundColor = UIColor(resource: .whiteYP)
+        view.backgroundColor = .whiteYP
         view.contentMode = .scaleToFill
     }
     
     private func setupClearTextLabel() {
         clearTextLabel.text = UITrackersVCConstants.clearTextLabel
-        clearTextLabel.textColor = UIColor(resource: .blackYP)
+        clearTextLabel.textColor = .blackYP
         clearTextLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         clearTextLabel.contentMode = .center
         clearTextLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -89,13 +89,13 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
         clearImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(clearImageView)
         clearImageView.contentMode = .scaleAspectFit
-        clearImageView.tintColor = UIColor(resource: .blackYP)
+        clearImageView.tintColor = .blackYP
     }
     
     private func setupTrackerButton(){
         let trackerButtonImage = UIImage(resource: .addTracker)
         let addTrackerButton = UIBarButtonItem(image: trackerButtonImage, style: .plain, target: self, action: #selector(addTrackerButtonTapped))
-        addTrackerButton.tintColor = .black
+        addTrackerButton.tintColor = .blackYP
         navigationItem.leftBarButtonItem = addTrackerButton
     }
     
@@ -108,7 +108,7 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
         searchField = UISearchController(searchResultsController: nil)
         searchField?.searchBar.placeholder = UITrackersVCConstants.searchBarPlaceholder
         searchField?.searchBar.searchTextField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        searchField?.searchBar.searchTextField.textColor = UIColor(resource: .searchBGYP)
+        searchField?.searchBar.searchTextField.textColor = .searchBGYP
         navigationItem.searchController = searchField
     }
     
@@ -120,6 +120,7 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(TrackerViewCell.self, forCellWithReuseIdentifier: TrackerViewCell.reuseIdentifier)
+        collectionView.backgroundColor = .whiteYP
         view.addSubview(collectionView)
     }
     
