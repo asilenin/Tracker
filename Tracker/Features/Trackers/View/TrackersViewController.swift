@@ -38,6 +38,7 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
             collectionView.reloadData()
         }
     }
+    private var dateFilteredCategories: [TrackerCategory] = []
     
     // MARK: - Initializers
     init() {
@@ -109,6 +110,7 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
         searchField?.searchBar.placeholder = UITrackersVCConstants.searchBarPlaceholder
         searchField?.searchBar.searchTextField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         searchField?.searchBar.searchTextField.textColor = .searchBGYP
+        searchField?.searchResultsUpdater = self
         navigationItem.searchController = searchField
     }
     
@@ -247,7 +249,31 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
             newFilteredTrackers.append(contentsOf: filteredTrackersInCategory)
         }
         self.filteredTrackers = newFilteredTrackers
-        self.visibleCategories = newVisibleCategories
+        self.dateFilteredCategories = newVisibleCategories
+        applySearchFilter()
+    }
+    
+    private func applySearchFilter() {
+        guard let searchText = searchField?.searchBar.text,
+              !searchText.isEmpty else {
+            visibleCategories = dateFilteredCategories
+            return
+        }
+
+        let lowercasedText = searchText.lowercased()
+
+        visibleCategories = dateFilteredCategories.compactMap { category in
+            let filteredTrackers = category.trackers.filter {
+                $0.name.lowercased().contains(lowercasedText)
+            }
+
+            guard !filteredTrackers.isEmpty else { return nil }
+
+            return TrackerCategory(
+                title: category.title,
+                trackers: filteredTrackers
+            )
+        }
     }
 }
 
@@ -327,5 +353,12 @@ extension TrackersViewController: TrackerCategoryStoreDelegate {
 extension TrackersViewController: TrackerRecordStoreDelegate {
     func storeDidUpdate(_ records: [TrackerRecord]) {
         filterTrackersForSelectedDate(currentDate)
+    }
+}
+
+extension TrackersViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        applySearchFilter()
+        collectionView.reloadData()
     }
 }
