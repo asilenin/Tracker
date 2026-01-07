@@ -20,13 +20,26 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
     private var isFormValid: Bool = false
+    private let editingTracker: Tracker?
     private let trackerId: UUID
-    init(trackerId: UUID = UUID()) {
-        self.trackerId = trackerId
+    
+    // Создание нового трекера
+    init() {
+        self.editingTracker = nil
+        self.trackerId = UUID()
         super.init(nibName: nil, bundle: nil)
     }
+
+    // Редактирование существующего
+    init(tracker: Tracker) {
+        self.editingTracker = tracker
+        self.trackerId = tracker.id
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        return nil
+        nil
     }
     
     // MARK: - UI Elements

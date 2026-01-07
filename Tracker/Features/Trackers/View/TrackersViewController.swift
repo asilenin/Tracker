@@ -275,6 +275,69 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
             )
         }
     }
+    
+    private func makeContextMenu(
+        for tracker: Tracker,
+        at indexPath: IndexPath
+    ) -> UIMenu {
+
+        let editAction = UIAction(
+            title: "Редактировать",
+            image: UIImage(systemName: "pencil")
+        ) { [weak self] _ in
+            self?.editTracker(tracker)
+        }
+
+        let deleteAction = UIAction(
+            title: "Удалить",
+            image: UIImage(systemName: "trash"),
+            attributes: .destructive
+        ) { [weak self] _ in
+            self?.deleteTracker(tracker)
+        }
+
+        return UIMenu(title: "", children: [editAction, deleteAction])
+    }
+    
+    private func editTracker(_ tracker: Tracker) {
+        let editVC = AddTrackerViewController(tracker: tracker)
+        editVC.delegate = self
+        let navVC = UINavigationController(rootViewController: editVC)
+        present(navVC, animated: true)
+    }
+    
+    private func deleteTracker(_ tracker: Tracker) {
+        let alert = UIAlertController(
+            title: "Удалить трекер?",
+            message: "Это действие нельзя отменить",
+            preferredStyle: .alert
+        )
+
+        let deleteAction = UIAlertAction(
+            title: "Удалить",
+            style: .destructive
+        ) { [weak self] _ in
+            self?.performDelete(tracker)
+        }
+
+        let cancelAction = UIAlertAction(
+            title: "Отмена",
+            style: .cancel
+        )
+
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+
+        present(alert, animated: true)
+    }
+    
+    private func performDelete(_ tracker: Tracker) {
+        do {
+            try trackerStore.deleteTracker(tracker)
+        } catch {
+            AppLogger.shared.error("Failed to delete tracker: \(error)")
+        }
+    }
 }
 
 extension TrackersViewController: UICollectionViewDataSource {
@@ -360,5 +423,24 @@ extension TrackersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         applySearchFilter()
         collectionView.reloadData()
+    }
+}
+
+extension TrackersViewController {
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfigurationForItemAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+
+        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
+
+        return UIContextMenuConfiguration(
+            identifier: indexPath as NSIndexPath,
+            previewProvider: nil
+        ) { [weak self] _ in
+            self?.makeContextMenu(for: tracker, at: indexPath)
+        }
     }
 }

@@ -56,6 +56,26 @@ final class TrackerStore: NSObject {
         }
     }
     
+    func deleteTracker(_ tracker: Tracker) throws {
+        let request: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+        request.fetchLimit = 1
+
+        guard let entity = try context.fetch(request).first else {
+            AppLogger.shared.warning("[TrackerStore] Tracker not found for deletion: \(tracker.id)")
+            return
+        }
+
+        context.delete(entity)
+
+        do {
+            try context.save()
+        } catch {
+            AppLogger.shared.error("[TrackerStore] Failed to delete tracker: \(error)")
+            throw error
+        }
+    }
+    
     // MARK: - Private Methods
     
     private func fetchOrCreateCoreDataEntity(for tracker: Tracker) throws -> TrackerCoreData {
