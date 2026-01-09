@@ -8,7 +8,15 @@ enum UIConstants {
 enum UITrackersVCConstants {
     static let title = NSLocalizedString("UITrackersVCConstants.title", comment: "Трекеры")
     static let clearTextLabel = NSLocalizedString("UITrackersVCConstants.clearTextLabel", comment: "Что будем отслеживать?")
+    static let clearTextLabelNothingWasFound = NSLocalizedString("UITrackersVCConstants.clearTextLabelNothingWasFound", comment: "Ничего не найдено")
     static let searchBarPlaceholder = NSLocalizedString("UITrackersVCConstants.searchBarPlaceholder", comment: "Поиск")
+    static let filtersButtonLabel = NSLocalizedString("UITrackersVCConstants.filtersButtonLabel", comment: "Фильтры")
+    static let contextEditLabel = NSLocalizedString("UITrackersVCConstants.contextEditLabel", comment: "Редактировать")
+    static let contextDeleteLabel = NSLocalizedString("UITrackersVCConstants.contextDeleteLabel", comment: "Удалить")
+    static let deleteTrackerTitle = NSLocalizedString("UITrackersVCConstants.deleteTrackerTitle", comment: "Это действие нельзя отменить")
+    static let deleteTrackerMessage = NSLocalizedString("UITrackersVCConstants.deleteTrackerMessage", comment: "Удалить")
+    static let deleteTrackerOK = NSLocalizedString("UITrackersVCConstants.deleteTrackerOK", comment: "Удалить")
+    static let deleteTrackerCancel = NSLocalizedString("UITrackersVCConstants.deleteTrackerCancel", comment: "Отмена")
 }
 
 enum UIHabitTrackerConstants {
@@ -18,6 +26,7 @@ enum UIHabitTrackerConstants {
     static let categoryImportant = NSLocalizedString("UIHabitTrackerConstants.categoryImportant", comment: "Важное")
     static let categoryUnimportant = NSLocalizedString("UIHabitTrackerConstants.categoryUnimportant", comment: "Неважное")
     static let title = NSLocalizedString("UIHabitTrackerConstants.title", comment: "Новая привычка")
+    static let editTitle = NSLocalizedString("UIHabitTrackerConstants.editTitle", comment: "Редактирование привычки")
     static let namePlaceholder = NSLocalizedString("UIHabitTrackerConstants.namePlaceholder", comment: "Введите название трекера")
     static let createButtonLabel = NSLocalizedString("UIHabitTrackerConstants.createButtonLabel", comment: "Создать")
     static let cancelButtonLabel = NSLocalizedString("UIHabitTrackerConstants.cancelButtonLabel", comment: "Отменить")
@@ -47,4 +56,30 @@ enum UUIOnboardingConstants {
     static let buttonTitle = NSLocalizedString("UUIOnboardingConstants.buttonTitle", comment: "Вот это технологии!")
     static let textOnboardingv1 = NSLocalizedString("UUIOnboardingConstants.textOnboardingv1", comment: "Отслеживайте только то, что хотите")
     static let textOnboardingv2 = NSLocalizedString("UUIOnboardingConstants.textOnboardingv2", comment: "Даже если это\nне литры воды и йога")
+}
+
+enum WeekdaysConstants {
+    static let monday = NSLocalizedString("UIWeekday.monday", comment: "Понедельник")
+    static let tuesday = NSLocalizedString("UIWeekday.tuesday", comment: "Вторник")
+    static let wednesday = NSLocalizedString("UIWeekday.wednesday", comment: "Среда")
+    static let thursday = NSLocalizedString("UIWeekday.thursday", comment: "Четверг")
+    static let friday = NSLocalizedString("UIWeekday.friday", comment: "Пятница")
+    static let saturday = NSLocalizedString("UIWeekday.saturday", comment: "Суббота")
+    static let sunday = NSLocalizedString("UIWeekday.sunday", comment: "Воскресенье")
+    
+    static let m = NSLocalizedString("UIWeekday.m", comment: "Пн")
+    static let tu = NSLocalizedString("UIWeekday.tu", comment: "Вт")
+    static let w = NSLocalizedString("UIWeekday.w", comment: "Ср")
+    static let th = NSLocalizedString("UIWeekday.th", comment: "Чт")
+    static let f = NSLocalizedString("UIWeekday.f", comment: "Пт")
+    static let s = NSLocalizedString("UIWeekday.s", comment: "Сб")
+    static let su = NSLocalizedString("UIWeekday.su", comment: "Вс")
+}
+
+enum TrackerFilterConstants {
+    static let all = NSLocalizedString("UITrackerFilter.all", comment: "Все трекеры")
+    static let today = NSLocalizedString("UITrackerFilter.today", comment: "Трекеры на сегодня")
+    static let completed = NSLocalizedString("UITrackerFilter.completed", comment: "Завершённые")
+    static let uncompleted = NSLocalizedString("UITrackerFilter.uncompleted", comment: "Незавершённые")
+    static let listTitle = NSLocalizedString("UITrackerFilter.listTitle", comment: "Фильтры")
 }

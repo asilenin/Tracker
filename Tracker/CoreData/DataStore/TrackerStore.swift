@@ -51,7 +51,7 @@ final class TrackerStore: NSObject {
         do {
             try context.save()
         } catch {
-            AppLogger.shared.error("[TrackerStore] Failed to save tracker: \(error)")
+            AppLogger.shared.error("[TrackerStore]:\(#line)] \(#function) Failed to save tracker: \(error)")
             throw error
         }
     }
@@ -62,7 +62,7 @@ final class TrackerStore: NSObject {
         request.fetchLimit = 1
 
         guard let entity = try context.fetch(request).first else {
-            AppLogger.shared.warning("[TrackerStore] Tracker not found for deletion: \(tracker.id)")
+            AppLogger.shared.warning("[TrackerStore]:\(#line)] \(#function) Tracker not found for deletion: \(tracker.id)")
             return
         }
 
@@ -71,7 +71,7 @@ final class TrackerStore: NSObject {
         do {
             try context.save()
         } catch {
-            AppLogger.shared.error("[TrackerStore] Failed to delete tracker: \(error)")
+            AppLogger.shared.error("[TrackerStore]:\(#line)] \(#function) Failed to delete tracker: \(error)")
             throw error
         }
     }

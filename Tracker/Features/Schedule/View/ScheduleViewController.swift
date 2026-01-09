@@ -98,7 +98,7 @@ extension ScheduleViewController: UITableViewDataSource {
         let day = Weekday.allCases[indexPath.row]
         cell.contentView.backgroundColor = .backgroundTableYP
         cell.backgroundColor = .backgroundTableYP
-        cell.textLabel?.text = day.rawValue
+        cell.textLabel?.text = day.fullName
         cell.daySwitch.isOn = selectedSchedule.contains(day)
         cell.daySwitch.tag = indexPath.row
         cell.daySwitch.removeTarget(nil, action: nil, for: .allEvents)

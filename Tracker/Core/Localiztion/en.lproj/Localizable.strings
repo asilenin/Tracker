@@ -3,7 +3,16 @@
 
 "UITrackersVCConstants.title" = "Trackers";
 "UITrackersVCConstants.clearTextLabel" = "What would you like to track?";
+"UITrackersVCConstants.clearTextLabelNothingWasFound" = "Nothing was Found";
 "UITrackersVCConstants.searchBarPlaceholder" = "Search";
+"UITrackersVCConstants.filtersButtonLabel" = "Filters";
+"UITrackersVCConstants.contextEditLabel" = "Edit";
+"UITrackersVCConstants.contextDeleteLabel" = "Delete";
+"UITrackersVCConstants.deleteTrackerTitle" = "Delete Tracker?";
+"UITrackersVCConstants.deleteTrackerMessage" = "Deletion cannot be undone";
+"UITrackersVCConstants.deleteTrackerOK" = "Delete";
+"UITrackersVCConstants.deleteTrackerCancel" = "Cancel";
+
 
 "UIHabitTrackerConstants.errorMessage" = "Maximum 38 characters";
 "UIHabitTrackerConstants.sectionCategory" = "Category";
@@ -11,6 +20,7 @@
 "UIHabitTrackerConstants.categoryImportant" = "Important";
 "UIHabitTrackerConstants.categoryUnimportant" = "Unimportant";
 "UIHabitTrackerConstants.title" = "New Habit";
+"UIHabitTrackerConstants.editTitle" = "Edit Habit";
 "UIHabitTrackerConstants.namePlaceholder" = "Enter tracker name";
 "UIHabitTrackerConstants.createButtonLabel" = "Create";
 "UIHabitTrackerConstants.cancelButtonLabel" = "Cancel";
@@ -30,3 +40,25 @@
 "UUIOnboardingConstants.buttonTitle" = "That's some tech!";
 "UUIOnboardingConstants.textOnboardingv1" = "Track only what you want";
 "UUIOnboardingConstants.textOnboardingv2" = "Even if it's not\nwater intake or yoga";
+
+"UIWeekday.monday" = "Monday";
+"UIWeekday.tuesday" = "Tuesday";
+"UIWeekday.wednesday" = "Wednesday";
+"UIWeekday.thursday" = "Thursday";
+"UIWeekday.friday" = "Friday";
+"UIWeekday.saturday" = "Saturday";
+"UIWeekday.sunday" = "Sunday";
+
+"UIWeekday.m" = "M";
+"UIWeekday.tu" = "Tu";
+"UIWeekday.w" = "W";
+"UIWeekday.th" = "Th";
+"UIWeekday.f" = "F";
+"UIWeekday.s" = "S";
+"UIWeekday.su" = "Su";
+
+"UITrackerFilter.all" = "All Trackers";
+"UITrackerFilter.today" = "Trackers for Today";
+"UITrackerFilter.completed" = "Completed";
+"UITrackerFilter.uncompleted" = "Uncompleted";
+"UITrackerFilter.listTitle" = "Filters";

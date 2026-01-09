@@ -3,7 +3,15 @@
 
 "UITrackersVCConstants.title" = "Трекеры";
 "UITrackersVCConstants.clearTextLabel" = "Что будем отслеживать?";
+"UITrackersVCConstants.clearTextLabelNothingWasFound" = "Ничего не найдено";
 "UITrackersVCConstants.searchBarPlaceholder" = "Поиск";
+"UITrackersVCConstants.filtersButtonLabel" = "Фильтры";
+"UITrackersVCConstants.contextEditLabel" = "Редактировать";
+"UITrackersVCConstants.contextDeleteLabel" = "Удалить";
+"UITrackersVCConstants.deleteTrackerTitle" = "Удалить трекер?";
+"UITrackersVCConstants.deleteTrackerMessage" = "Это действие нельзя отменить";
+"UITrackersVCConstants.deleteTrackerOK" = "Удалить";
+"UITrackersVCConstants.deleteTrackerCancel" = "Отмена";
 
 "UIHabitTrackerConstants.errorMessage" = "Ограничение 38 символов";
 "UIHabitTrackerConstants.sectionCategory" = "Категория";
@@ -11,6 +19,7 @@
 "UIHabitTrackerConstants.categoryImportant" = "Важное";
 "UIHabitTrackerConstants.categoryUnimportant" = "Неважное";
 "UIHabitTrackerConstants.title" = "Новая привычка";
+"UIHabitTrackerConstants.editTitle" = "Редактирование привычки";
 "UIHabitTrackerConstants.namePlaceholder" = "Введите название трекера";
 "UIHabitTrackerConstants.createButtonLabel" = "Создать";
 "UIHabitTrackerConstants.cancelButtonLabel" = "Отменить";
@@ -30,3 +39,25 @@
 "UUIOnboardingConstants.buttonTitle" = "Вот это технологии!";
 "UUIOnboardingConstants.textOnboardingv1" = "Отслеживайте только то, что хотите";
 "UUIOnboardingConstants.textOnboardingv2" = "Даже если это\nне литры воды и йога";
+
+"UIWeekday.monday" = "Понедельник";
+"UIWeekday.tuesday" = "Вторник";
+"UIWeekday.wednesday" = "Среда";
+"UIWeekday.thursday" = "Четверг";
+"UIWeekday.friday" = "Пятница";
+"UIWeekday.saturday" = "Суббота";
+"UIWeekday.sunday" = "Воскресенье";
+
+"UIWeekday.m" = "Пн";
+"UIWeekday.tu" = "Вт";
+"UIWeekday.w" = "Ср";
+"UIWeekday.th" = "Чт";
+"UIWeekday.f" = "Пт";
+"UIWeekday.s" = "Сб";
+"UIWeekday.su" = "Вс";
+
+"UITrackerFilter.all" = "Все трекеры";
+"UITrackerFilter.today" = "Трекеры на сегодня";
+"UITrackerFilter.completed" = "Завершённые";
+"UITrackerFilter.uncompleted" = "Незавершённые";
+"UITrackerFilter.listTitle" = "Фильтры";

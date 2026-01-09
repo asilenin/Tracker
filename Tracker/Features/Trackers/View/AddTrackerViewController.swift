@@ -102,9 +102,14 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         scrollView.addSubview(errorLabel)
     }
     
-    private func setupTitle(){
-        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 16, weight: .medium)]
-        navigationItem.title = UIHabitTrackerConstants.title
+    private func setupTitle() {
+        navigationController?.navigationBar.titleTextAttributes = [
+            .font: UIFont.systemFont(ofSize: 16, weight: .medium)
+        ]
+
+        navigationItem.title = editingTracker == nil
+            ? UIHabitTrackerConstants.title
+            : UIHabitTrackerConstants.editTitle
     }
     
     private func setupNameTrackerTextField() {
