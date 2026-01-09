@@ -8,6 +8,7 @@ final class TrackersViewModel {
     private let fetchCategories: () -> [TrackerCategory]
     private let isTrackerCompleted: (_ trackerId: UUID, _ date: Date) -> Bool
     
+    
     // MARK: - Public Properties
     var currentDate: Date {
         didSet { updateVisibleCategories() }
@@ -19,6 +20,12 @@ final class TrackersViewModel {
 
     var searchText: String {
         didSet { updateVisibleCategories() }
+    }
+    
+    var hasAnyTrackers: Bool {
+        fetchCategories()
+            .flatMap { $0.trackers }
+            .isEmpty == false
     }
 
     // MARK: - Init
@@ -54,7 +61,7 @@ final class TrackersViewModel {
         onUpdate?()
     }
     
-    // MARK: - Filtering
+    // MARK: - Private Methods
     private func filterByDate(
         _ categories: [TrackerCategory],
         date: Date

@@ -177,8 +177,9 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
         NSLayoutConstraint.activate([
             clearImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             clearImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
-            clearImageView.widthAnchor.constraint(equalToConstant: 80),
-            clearImageView.heightAnchor.constraint(equalToConstant: 80),
+
+            clearTextLabel.topAnchor.constraint(equalTo: clearImageView.bottomAnchor, constant: 8),
+            clearTextLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             clearTextLabel.topAnchor.constraint(equalTo: clearImageView.bottomAnchor, constant: 8),
             clearTextLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -250,16 +251,19 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     }
     
     private func updateClearView() {
-        let hasContent = !viewModel.visibleCategories.isEmpty
+        let hasVisibleContent = !viewModel.visibleCategories.isEmpty
+        let hasAnyTrackers = viewModel.hasAnyTrackers
 
-        clearImageView.isHidden = hasContent
-        clearTextLabel.isHidden = hasContent
-        collectionView.isHidden = !hasContent
-        filterButton.isHidden = !hasContent
+        clearImageView.isHidden = hasVisibleContent
+        clearTextLabel.isHidden = hasVisibleContent
+        collectionView.isHidden = !hasVisibleContent
+        filterButton.isHidden = !hasAnyTrackers
 
-        if !hasContent {
-            clearTextLabel.text = UITrackersVCConstants.clearTextLabelNothingWasFound
-        }
+        guard !hasVisibleContent else { return }
+
+        clearTextLabel.text = hasAnyTrackers
+            ? UITrackersVCConstants.clearTextLabelNothingWasFound
+            : UITrackersVCConstants.clearTextLabel
     }
     
     @objc private func addTrackerButtonTapped(){

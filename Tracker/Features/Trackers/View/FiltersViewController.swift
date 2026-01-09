@@ -1,7 +1,10 @@
 import UIKit
 final class FiltersViewController: UIViewController {
-    private var selectedFilter: TrackerFilter
+    // MARK: - Properties
     var onSelect: ((TrackerFilter) -> Void)?
+    
+    // MARK: - Private Properties
+    private var selectedFilter: TrackerFilter
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -10,7 +13,8 @@ final class FiltersViewController: UIViewController {
         tableView.delegate = self
         return tableView
     }()
-
+    
+    // MARK: - Initializers
     init(selectedFilter: TrackerFilter) {
         self.selectedFilter = selectedFilter
         super.init(nibName: nil, bundle: nil)
@@ -19,6 +23,7 @@ final class FiltersViewController: UIViewController {
     @available(*, unavailable)
     required init?(coder: NSCoder) { nil }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
