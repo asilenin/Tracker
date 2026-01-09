@@ -83,3 +83,14 @@ enum TrackerFilterConstants {
     static let uncompleted = NSLocalizedString("UITrackerFilter.uncompleted", comment: "Незавершённые")
     static let listTitle = NSLocalizedString("UITrackerFilter.listTitle", comment: "Фильтры")
 }
+
+
+
+enum UIStatisticsConstants {
+    static let bestPeriod = NSLocalizedString("UIStatisticsConstants.bestPeriod", comment: "Лучший период")
+    static let perfectDays = NSLocalizedString("UIStatisticsConstants.perfectDays", comment: "Идеальные дни")
+    static let completed = NSLocalizedString("UIStatisticsConstants.completed", comment: "Трекеров завершено")
+    static let average = NSLocalizedString("UIStatisticsConstants.average", comment: "Среднее значение")
+    static let clearText = NSLocalizedString("UIStatisticsConstants.clearText", comment: "Анализировать пока нечего")
+    static let title = NSLocalizedString("UIStatisticsConstants.title", comment: "Статистика")
+}

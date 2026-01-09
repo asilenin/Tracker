@@ -1,7 +1,21 @@
 import CoreData
 import Logging
+import Foundation
 
-final class TrackerRecordStore: NSObject {
+protocol TrackerRecordStoreProtocol: AnyObject {
+
+    func fetchRecords() -> [TrackerRecord]
+
+    func addRecord(_ record: TrackerRecord) throws
+    func deleteRecord(_ record: TrackerRecord) throws
+
+    func toggleRecord(trackerId: UUID, date: Date)
+
+    func records(for trackerId: UUID) -> [TrackerRecord]
+    func isCompleted(trackerId: UUID, date: Date) -> Bool
+}
+
+final class TrackerRecordStore: NSObject, TrackerRecordStoreProtocol {
     
     // MARK: - Public Properties
     weak var delegate: TrackerRecordStoreDelegate?

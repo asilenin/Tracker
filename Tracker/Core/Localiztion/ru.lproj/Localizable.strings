@@ -61,3 +61,10 @@
 "UITrackerFilter.completed" = "Завершённые";
 "UITrackerFilter.uncompleted" = "Незавершённые";
 "UITrackerFilter.listTitle" = "Фильтры";
+
+"UIStatisticsConstants.bestPeriod" = "Лучший период";
+"UIStatisticsConstants.perfectDays" = "Идеальные дни";
+"UIStatisticsConstants.completed" = "Трекеров завершено";
+"UIStatisticsConstants.average" = "Среднее значение";
+"UIStatisticsConstants.clearText" = "Анализировать пока нечего";
+"UIStatisticsConstants.title" = "Статистика";

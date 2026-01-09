@@ -1,8 +1,21 @@
 import UIKit
 import CoreData
 import Logging
+import Foundation
 
-final class TrackerStore: NSObject {
+protocol TrackerStoreProtocol: AnyObject {
+
+    func fetchTrackers() -> [Tracker]
+
+    func addNewTracker(
+        _ tracker: Tracker,
+        to category: TrackerCategoryCoreData
+    ) throws
+
+    func deleteTracker(_ tracker: Tracker) throws
+}
+
+final class TrackerStore: NSObject, TrackerStoreProtocol {
     
     // MARK: - Public Properties
     weak var delegate: TrackerStoreDelegate?

@@ -62,3 +62,10 @@
 "UITrackerFilter.completed" = "Completed";
 "UITrackerFilter.uncompleted" = "Uncompleted";
 "UITrackerFilter.listTitle" = "Filters";
+
+"UIStatisticsConstants.bestPeriod" = "Best Period";
+"UIStatisticsConstants.perfectDays" = "Perfect Days";
+"UIStatisticsConstants.completed" = "Completed";
+"UIStatisticsConstants.average" = "Average";
+"UIStatisticsConstants.clearText" = "No Data to Analyze";
+"UIStatisticsConstants.title" = "Statistics";

@@ -1,14 +1,9 @@
 import UIKit
 import Logging
 
-protocol TrackersViewControllerProtocol: AnyObject {
-    var presenter: TrackersPresenterProtocol? { get set }
-}
-
-final class TrackersViewController: UIViewController,TrackerViewCellDelegate, AddTrackerViewControllerDelegate, TrackersViewControllerProtocol{
+final class TrackersViewController: UIViewController, TrackerViewCellDelegate, AddTrackerViewControllerDelegate{
     
     // MARK: - Properties
-    var presenter: TrackersPresenterProtocol?
     var currentDate = Date()
     
     // MARK: - UI Elements
@@ -49,6 +44,7 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     init() {
         super.init(nibName: nil, bundle: nil)
     }
+    
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
