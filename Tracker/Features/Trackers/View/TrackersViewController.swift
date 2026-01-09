@@ -82,6 +82,22 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
         collectionView.reloadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        AnalyticsService.shared.report(
+            event: .openMain()
+        )
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        AnalyticsService.shared.report(
+            event: .closeMain()
+        )
+    }
+    
     // MARK: - Configuration
     private func setupView() {
         view.backgroundColor = .whiteYP
@@ -200,6 +216,11 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     
     // MARK: - Public Methods
     func didTapCompleteButton(trackerId: UUID, at indexPath: IndexPath) {
+        
+        AnalyticsService.shared.report(
+            event: .click(item: "track")
+        )
+        
         if currentDate <= Date() {
             addTrackerRecord(trackerId: trackerId, date: currentDate)
         }
@@ -267,6 +288,11 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     }
     
     @objc private func addTrackerButtonTapped(){
+        
+        AnalyticsService.shared.report(
+            event: .click(item: "add_track")
+        )
+        
         let addTrackerViewController = AddTrackerViewController()
         addTrackerViewController.delegate = self
         let navigationController = UINavigationController(rootViewController: addTrackerViewController)
@@ -308,6 +334,11 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     }
     
     private func editTracker(_ tracker: Tracker) {
+        
+        AnalyticsService.shared.report(
+            event: .click(item: "edit")
+        )
+        
         let editVC = AddTrackerViewController(tracker: tracker)
         editVC.delegate = self
         let navVC = UINavigationController(rootViewController: editVC)
@@ -340,6 +371,11 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     }
     
     private func performDelete(_ tracker: Tracker) {
+        
+        AnalyticsService.shared.report(
+            event: .click(item: "delete")
+        )
+        
         do {
             try trackerStore.deleteTracker(tracker)
         } catch {
@@ -348,6 +384,11 @@ final class TrackersViewController: UIViewController,TrackerViewCellDelegate, Ad
     }
     
     @objc private func filterButtonTapped() {
+        
+        AnalyticsService.shared.report(
+            event: .click(item: "filter")
+        )
+        
         searchField?.isActive = false
         let vc = FiltersViewController(
             selectedFilter: makeSelectedFilterForFiltersVC()
