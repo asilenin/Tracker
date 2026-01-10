@@ -123,7 +123,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         trackerNameTextField.returnKeyType = .done
         trackerNameTextField.enablesReturnKeyAutomatically = true
         trackerNameTextField.smartInsertDeleteType = .no
-        trackerNameTextField.textColor = .greyYP
+        trackerNameTextField.textColor = .blackYP
         trackerNameTextField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         trackerNameTextField.translatesAutoresizingMaskIntoConstraints = false
         trackerNameTextField.keyboardType = .default
