@@ -6,8 +6,18 @@ final class FiltersViewController: UIViewController {
     // MARK: - Private Properties
     private var selectedFilter: TrackerFilter
     
+    private(set) lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = TrackerFilterConstants.listTitle
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.backgroundColor = .whiteYP
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
@@ -26,17 +36,28 @@ final class FiltersViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .backgroundTableYP
-        title = TrackerFilterConstants.listTitle
-
+        setupView()
+        setupConstraints()
+    }
+    
+    private func setupView(){
+        view.backgroundColor = .whiteYP
+        
+        tableView.register(FiltersCell.self, forCellReuseIdentifier: FiltersCell.reuseId)
+        view.addSubview(titleLabel)
+        
         view.addSubview(tableView)
-
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 27),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 
@@ -51,16 +72,20 @@ extension FiltersViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let filter = TrackerFilter.allCases[indexPath.row]
-        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = filter.title
-
-        if filter == selectedFilter, filter.showsCheckmark {
-            cell.accessoryType = .checkmark
-            cell.tintColor = .blueYP
-        } else {
-            cell.accessoryType = .none
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: FiltersCell.reuseId,
+            for: indexPath
+        ) as? FiltersCell else {
+            return UITableViewCell()
         }
+
+        let filter = TrackerFilter.allCases[indexPath.row]
+        let isSelected = filter == selectedFilter && filter.showsCheckmark
+
+        cell.configure(
+            title: filter.title,
+            isSelected: isSelected
+        )
 
         return cell
     }
