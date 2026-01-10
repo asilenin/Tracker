@@ -1,7 +1,6 @@
 import UIKit
 import CoreData
 import Logging
-import Foundation
 
 protocol TrackerStoreProtocol: AnyObject {
 

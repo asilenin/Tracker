@@ -1,4 +1,5 @@
 import UIKit
+
 final class FiltersViewController: UIViewController {
     // MARK: - Properties
     var onSelect: ((TrackerFilter) -> Void)?

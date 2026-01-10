@@ -13,7 +13,7 @@ final class StatisticsCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setupView()
     }
 
     required init?(coder: NSCoder) {
@@ -30,7 +30,14 @@ final class StatisticsCell: UICollectionViewCell {
         updateGradientFrame()
     }
     
-    private func setup() {
+    //MARK: - Public Methods
+    func configure(with model: StatisticsItem) {
+        valueLabel.text = "\(model.value)"
+        titleLabel.text = model.title
+    }
+    
+    // MARK: - Configuration
+    private func setupView() {
         contentView.backgroundColor = .clear
         contentView.layer.cornerRadius = 16
         contentView.layer.masksToBounds = false
@@ -102,10 +109,5 @@ final class StatisticsCell: UICollectionViewCell {
             roundedRect: contentView.bounds.insetBy(dx: inset, dy: inset),
             cornerRadius: 16 - inset
         ).cgPath
-    }
-    
-    func configure(with model: StatisticsItem) {
-        valueLabel.text = "\(model.value)"
-        titleLabel.text = model.title
     }
 }
