@@ -9,11 +9,35 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
     // MARK: - UI Elements
     private let clearTextLabel = UILabel()
     private var clearImageView = UIImageView()
-    private var searchField: UISearchController?
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
+    }()
+    private let searchField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = UITrackersVCConstants.searchBarPlaceholder
+        textField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        textField.textColor = .blackYP
+        textField.backgroundColor = .searchBGYP
+        textField.layer.cornerRadius = 10
+        textField.clipsToBounds = true
+        textField.clearButtonMode = .whileEditing
+        textField.returnKeyType = .done
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        
+        let icon = UIImageView(image: UIImage(systemName: "magnifyingglass"))
+        icon.tintColor = .gray
+        icon.contentMode = .scaleAspectFit
+
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
+        icon.frame = CGRect(x: 8, y: 8, width: 20, height: 20)
+        container.addSubview(icon)
+
+        textField.leftView = container
+        textField.leftViewMode = .always
+        
+        return textField
     }()
     
     // MARK: - Private Properties
@@ -74,6 +98,7 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
         setupDatePicker()
         setupFilterButton()
         setupConstraints()
+        setupAppearance()
         updateClearView()
         collectionView.reloadData()
     }
@@ -130,13 +155,9 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
         navigationItem.title = UITrackersVCConstants.title
     }
     
-    private func setupSearchField() {
-        searchField = UISearchController(searchResultsController: nil)
-        searchField?.searchBar.placeholder = UITrackersVCConstants.searchBarPlaceholder
-        searchField?.searchBar.searchTextField.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        searchField?.searchBar.searchTextField.textColor = .searchBGYP
-        searchField?.searchResultsUpdater = self
-        navigationItem.searchController = searchField
+    private func setupSearchField(){
+        view.addSubview(searchField)
+        searchField.delegate = self
     }
     
     private func setupCollectionView() {
@@ -178,7 +199,7 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
         button.setTitle(UITrackersVCConstants.filtersButtonLabel, for: .normal)
         button.backgroundColor = .blueYP
         button.setTitleColor(.alwaysWhiteYP, for: .normal)
-        button.layer.cornerRadius = 16
+        button.layer.cornerRadius = UITrackersVCConstants.filterButtonCornerRadius
         button.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -186,6 +207,14 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
     
     // MARK: - Constraints
     private func setupConstraints() {
+        
+        NSLayoutConstraint.activate([
+            searchField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            searchField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            searchField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            searchField.heightAnchor.constraint(equalToConstant: UITrackersVCConstants.searchFieldHeight)
+        ])
+        
         NSLayoutConstraint.activate([
             clearImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             clearImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -40),
@@ -196,7 +225,7 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
             clearTextLabel.topAnchor.constraint(equalTo: clearImageView.bottomAnchor, constant: 8),
             clearTextLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 12),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -205,9 +234,20 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
         NSLayoutConstraint.activate([
             filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-            filterButton.heightAnchor.constraint(equalToConstant: 48),
-            filterButton.widthAnchor.constraint(equalToConstant: 200)
+            filterButton.heightAnchor.constraint(equalToConstant: UITrackersVCConstants.filterButtonSize.height),
+            filterButton.widthAnchor.constraint(equalToConstant: UITrackersVCConstants.filterButtonSize.width)
         ])
+    }
+    
+    private func setupAppearance(){
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .whiteYP
+        appearance.shadowColor = nil
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
     }
     
     // MARK: - Public Methods
@@ -385,7 +425,7 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
             event: .click(item: "filter")
         )
         
-        searchField?.isActive = false
+        searchField.resignFirstResponder()
         let vc = FiltersViewController(
             selectedFilter: makeSelectedFilterForFiltersVC()
         )
@@ -484,12 +524,6 @@ extension TrackersViewController: TrackerRecordStoreDelegate {
     }
 }
 
-extension TrackersViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        viewModel.searchText = searchController.searchBar.text ?? ""
-    }
-}
-
 extension TrackersViewController {
 
     func collectionView(
@@ -510,3 +544,14 @@ extension TrackersViewController {
     }
 }
 
+extension TrackersViewController: UITextFieldDelegate {
+
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        viewModel.searchText = textField.text ?? ""
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

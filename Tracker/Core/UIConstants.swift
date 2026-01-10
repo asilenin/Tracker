@@ -17,6 +17,11 @@ enum UITrackersVCConstants {
     static let deleteTrackerMessage = NSLocalizedString("UITrackersVCConstants.deleteTrackerMessage", comment: "Удалить")
     static let deleteTrackerOK = NSLocalizedString("UITrackersVCConstants.deleteTrackerOK", comment: "Удалить")
     static let deleteTrackerCancel = NSLocalizedString("UITrackersVCConstants.deleteTrackerCancel", comment: "Отмена")
+    
+    
+    static let filterButtonSize = CGSize(width: 114, height: 50)
+    static let filterButtonCornerRadius: CGFloat = 16
+    static let searchFieldHeight: CGFloat = 36
 }
 
 enum UIHabitTrackerConstants {
