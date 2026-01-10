@@ -21,7 +21,7 @@ final class AnalyticsService: AnalyticsServiceProtocol {
         ]
 
         if let item = event.item {
-            parameters["item"] = item
+            parameters["item"] = item.rawValue
         }
 
         AppMetrica.reportEvent(
@@ -42,7 +42,7 @@ final class AnalyticsService: AnalyticsServiceProtocol {
         ]
 
         if let item = event.item {
-            metadata["item"] = .string(item)
+            metadata["item"] = .string(item.rawValue)
         }
 
         logger.info(
@@ -62,7 +62,7 @@ extension AnalyticsEvent {
         AnalyticsEvent(event: "close", screen: "Main", item: nil)
     }
 
-    static func click(item: String) -> AnalyticsEvent {
+    static func click(item: AnalyticsItem) -> AnalyticsEvent {
         AnalyticsEvent(event: "click", screen: "Main", item: item)
     }
 }

@@ -254,7 +254,7 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
     func didTapCompleteButton(trackerId: UUID, at indexPath: IndexPath) {
         
         AnalyticsService.shared.report(
-            event: .click(item: "track")
+            event: .click(item: AnalyticsItem.track)
         )
         
         if currentDate <= Date() {
@@ -326,7 +326,7 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
     @objc private func addTrackerButtonTapped(){
         
         AnalyticsService.shared.report(
-            event: .click(item: "add_track")
+            event: .click(item: AnalyticsItem.addTrack)
         )
         
         let addTrackerViewController = AddTrackerViewController()
@@ -372,7 +372,7 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
     private func editTracker(_ tracker: Tracker) {
         
         AnalyticsService.shared.report(
-            event: .click(item: "edit")
+            event: .click(item: AnalyticsItem.edit)
         )
         
         let editVC = AddTrackerViewController(tracker: tracker)
@@ -409,7 +409,7 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
     private func performDelete(_ tracker: Tracker) {
         
         AnalyticsService.shared.report(
-            event: .click(item: "delete")
+            event: .click(item: AnalyticsItem.delete)
         )
         
         do {
@@ -422,7 +422,7 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
     @objc private func filterButtonTapped() {
         
         AnalyticsService.shared.report(
-            event: .click(item: "filter")
+            event: .click(item: AnalyticsItem.filter)
         )
         
         searchField.resignFirstResponder()
