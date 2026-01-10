@@ -384,8 +384,8 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
     private func deleteTracker(_ tracker: Tracker) {
         let alert = UIAlertController(
             title: UITrackersVCConstants.deleteTrackerTitle,
-            message: UITrackersVCConstants.deleteTrackerMessage,
-            preferredStyle: .alert
+            message: nil,
+            preferredStyle: .actionSheet
         )
 
         let deleteAction = UIAlertAction(

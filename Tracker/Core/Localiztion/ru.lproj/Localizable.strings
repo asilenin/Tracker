@@ -8,8 +8,7 @@
 "UITrackersVCConstants.filtersButtonLabel" = "Фильтры";
 "UITrackersVCConstants.contextEditLabel" = "Редактировать";
 "UITrackersVCConstants.contextDeleteLabel" = "Удалить";
-"UITrackersVCConstants.deleteTrackerTitle" = "Удалить трекер?";
-"UITrackersVCConstants.deleteTrackerMessage" = "Это действие нельзя отменить";
+"UITrackersVCConstants.deleteTrackerTitle" = "Уверены, что хотите удалить трекер?";
 "UITrackersVCConstants.deleteTrackerOK" = "Удалить";
 "UITrackersVCConstants.deleteTrackerCancel" = "Отмена";
 

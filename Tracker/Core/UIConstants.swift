@@ -13,8 +13,7 @@ enum UITrackersVCConstants {
     static let filtersButtonLabel = NSLocalizedString("UITrackersVCConstants.filtersButtonLabel", comment: "Фильтры")
     static let contextEditLabel = NSLocalizedString("UITrackersVCConstants.contextEditLabel", comment: "Редактировать")
     static let contextDeleteLabel = NSLocalizedString("UITrackersVCConstants.contextDeleteLabel", comment: "Удалить")
-    static let deleteTrackerTitle = NSLocalizedString("UITrackersVCConstants.deleteTrackerTitle", comment: "Это действие нельзя отменить")
-    static let deleteTrackerMessage = NSLocalizedString("UITrackersVCConstants.deleteTrackerMessage", comment: "Удалить")
+    static let deleteTrackerTitle = NSLocalizedString("UITrackersVCConstants.deleteTrackerTitle", comment: "Уверены, что хотите удалить трекер?")
     static let deleteTrackerOK = NSLocalizedString("UITrackersVCConstants.deleteTrackerOK", comment: "Удалить")
     static let deleteTrackerCancel = NSLocalizedString("UITrackersVCConstants.deleteTrackerCancel", comment: "Отмена")
     

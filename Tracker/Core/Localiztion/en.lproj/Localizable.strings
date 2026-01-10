@@ -8,8 +8,7 @@
 "UITrackersVCConstants.filtersButtonLabel" = "Filters";
 "UITrackersVCConstants.contextEditLabel" = "Edit";
 "UITrackersVCConstants.contextDeleteLabel" = "Delete";
-"UITrackersVCConstants.deleteTrackerTitle" = "Delete Tracker?";
-"UITrackersVCConstants.deleteTrackerMessage" = "Deletion cannot be undone";
+"UITrackersVCConstants.deleteTrackerTitle" = "Are you sure you want delete Tracker?";
 "UITrackersVCConstants.deleteTrackerOK" = "Delete";
 "UITrackersVCConstants.deleteTrackerCancel" = "Cancel";
 
