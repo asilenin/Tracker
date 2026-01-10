@@ -34,7 +34,6 @@ final class StatisticsViewController: UIViewController {
         super.viewDidLoad()
         bind()
         setupUI()
-        viewModel.reload()
     }
     
     // MARK: - Configuration

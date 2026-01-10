@@ -1,6 +1,6 @@
 import Foundation
 
-final class StatisticsViewModel {
+final class StatisticsViewModel: TrackerRecordStoreDelegate {
     
     // MARK: - Output
     private(set) var statistics: [StatisticsItem] = [] {
@@ -17,21 +17,34 @@ final class StatisticsViewModel {
     private let recordStore: TrackerRecordStoreProtocol
     private let trackerStore: TrackerStoreProtocol
     
+    
     init(
         recordStore: TrackerRecordStoreProtocol,
         trackerStore: TrackerStoreProtocol
     ) {
         self.recordStore = recordStore
         self.trackerStore = trackerStore
-    }
-    
-    // MARK: - Public
-    func reload() {
+        
+        (recordStore as? TrackerRecordStore)?.delegate = self
+        
         let records = recordStore.fetchRecords()
         let trackers = trackerStore.fetchTrackers()
         statistics = makeStatistics(records: records, trackers: trackers)
     }
     
+    // MARK: - Public Methods
+    /*func reload() {
+        let records = recordStore.fetchRecords()
+        let trackers = trackerStore.fetchTrackers()
+        statistics = makeStatistics(records: records, trackers: trackers)
+    }*/
+    
+    func storeDidUpdate(_ records: [TrackerRecord]) {
+        let trackers = trackerStore.fetchTrackers()
+        statistics = makeStatistics(records: records, trackers: trackers)
+    }
+    
+    // MARK: - Private Methods
     private func makeStatistics(
         records: [TrackerRecord],
         trackers: [Tracker]
