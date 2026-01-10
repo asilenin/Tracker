@@ -33,6 +33,7 @@ enum UIHabitTrackerConstants {
     static let editTitle = NSLocalizedString("UIHabitTrackerConstants.editTitle", comment: "Редактирование привычки")
     static let namePlaceholder = NSLocalizedString("UIHabitTrackerConstants.namePlaceholder", comment: "Введите название трекера")
     static let createButtonLabel = NSLocalizedString("UIHabitTrackerConstants.createButtonLabel", comment: "Создать")
+    static let saveButtonLabel = NSLocalizedString("UIHabitTrackerConstants.saveButtonLabel", comment: "Сохранить")
     static let cancelButtonLabel = NSLocalizedString("UIHabitTrackerConstants.cancelButtonLabel", comment: "Отменить")
     static let emojiTitle = NSLocalizedString("UIHabitTrackerConstants.emojiTitle", comment: "Emoji")
     static let colorTitle = NSLocalizedString("UIHabitTrackerConstants.colorTitle", comment: "Цвет")

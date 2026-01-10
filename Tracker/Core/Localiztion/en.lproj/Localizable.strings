@@ -22,6 +22,7 @@
 "UIHabitTrackerConstants.editTitle" = "Edit Habit";
 "UIHabitTrackerConstants.namePlaceholder" = "Enter tracker name";
 "UIHabitTrackerConstants.createButtonLabel" = "Create";
+"UIHabitTrackerConstants.saveButtonLabel" = "Save";
 "UIHabitTrackerConstants.cancelButtonLabel" = "Cancel";
 "UIHabitTrackerConstants.emojiTitle" = "Emoji";
 "UIHabitTrackerConstants.colorTitle" = "Color";

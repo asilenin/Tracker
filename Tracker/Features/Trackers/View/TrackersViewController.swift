@@ -299,6 +299,16 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
         recordStore.toggleRecord(trackerId: trackerId, date: date)
     }
     
+    func updateTracker(tracker: Tracker) {
+        do {
+            try trackerStore.updateTracker(tracker)
+        } catch {
+            AppLogger.shared.error(
+                "[TrackersViewController]: \(#function) error: \(error)"
+            )
+        }
+    }
+    
     // MARK: - Private Methods
     private func setupStores(){
         trackerStore.delegate = self
@@ -375,7 +385,11 @@ final class TrackersViewController: UIViewController, TrackerViewCellDelegate, A
             event: .click(item: AnalyticsItem.edit)
         )
         
-        let editVC = AddTrackerViewController(tracker: tracker)
+        let categoryTitle = viewModel.visibleCategories.first(where: { category in
+            category.trackers.contains(where: { $0.id == tracker.id })
+        })?.title
+
+        let editVC = AddTrackerViewController(tracker: tracker, categoryTitle: categoryTitle)
         editVC.delegate = self
         let navVC = UINavigationController(rootViewController: editVC)
         present(navVC, animated: true)

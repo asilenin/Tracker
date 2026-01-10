@@ -3,6 +3,7 @@ import Logging
 
 protocol AddTrackerViewControllerDelegate: AnyObject {
     func addNewTracker(tracker: Tracker, title: String)
+    func updateTracker(tracker: Tracker)
     func removeTrackerRecord(trackerId: UUID, date: Date)
 }
 
@@ -22,18 +23,21 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     private var isFormValid: Bool = false
     private let editingTracker: Tracker?
     private let trackerId: UUID
+    private let initialCategoryTitle: String?
     
     // Создание нового трекера
     init() {
         self.editingTracker = nil
         self.trackerId = UUID()
+        self.initialCategoryTitle = nil
         super.init(nibName: nil, bundle: nil)
     }
 
     // Редактирование существующего
-    init(tracker: Tracker) {
+    init(tracker: Tracker, categoryTitle: String?) {
         self.editingTracker = tracker
         self.trackerId = tracker.id
+        self.initialCategoryTitle = categoryTitle
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -78,6 +82,10 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         
         setupConstraints()
         scrollView.addGestureRecognizer(tapGesture)
+        
+        if let tracker = editingTracker {
+            populateFields(with: tracker)
+        }
     }
     
     // MARK: - Setup UI Elements
@@ -195,7 +203,12 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     }
     
     private func setupCreateButton() {
-        createButton.setTitle(UIHabitTrackerConstants.createButtonLabel, for: .normal)
+        
+        let buttonLabel = editingTracker == nil
+            ? UIHabitTrackerConstants.createButtonLabel
+            : UIHabitTrackerConstants.saveButtonLabel
+        
+        createButton.setTitle(buttonLabel, for: .normal)
         createButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         createButton.setTitleColor(.whiteYP, for: .normal)
         createButton.backgroundColor = .greyYP
@@ -285,7 +298,7 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         ])
     }
     
-    // MARK: - Methods
+    // MARK: - Public Methods
     func didUpdateSchedule(selectedSchedule: [Weekday]) {
         self.selectedSchedule = selectedSchedule
         tableView.reloadData()
@@ -314,6 +327,23 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
     }
     
     // MARK: - Private Methods
+    private func populateFields(with tracker: Tracker) {
+        trackerNameTextField.text = tracker.name
+        selectedEmoji = tracker.emoji
+        selectedColor = tracker.color
+        selectedSchedule = tracker.schedule
+        selectedCategory = initialCategoryTitle
+
+        updateCreateButtonState()
+        tableView.reloadData()
+        
+        emojiCollectionView.reloadData()
+        colorCollectionView.reloadData()
+        
+        selectEmojiIfNeeded()
+        selectColorIfNeeded()
+    }
+    
     private func updateCreateButtonState() {
         guard let text = trackerNameTextField.text else {
             createButton.isEnabled = false
@@ -331,7 +361,38 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
         createButton.isEnabled = isFormValid
     }
     
+    private func selectEmojiIfNeeded() {
+        guard let selectedEmoji else { return }
+
+        if let index = TrackerEmojis.emojis.firstIndex(of: selectedEmoji) {
+            let indexPath = IndexPath(item: index, section: 0)
+            emojiCollectionView.selectItem(
+                at: indexPath,
+                animated: false,
+                scrollPosition: []
+            )
+        }
+    }
+
+    private func selectColorIfNeeded() {
+        guard let selectedColor else { return }
+
+        let selectedHex = selectedColor.hexString
+
+        if let index = TrackerColors.colors.firstIndex(
+            where: { $0.hexString == selectedHex }
+        ) {
+            let indexPath = IndexPath(item: index, section: 0)
+            colorCollectionView.selectItem(
+                at: indexPath,
+                animated: false,
+                scrollPosition: []
+            )
+        }
+    }
+    
     @objc private func saveButtonTapped(){
+        
         guard let name = trackerNameTextField.text, !name.isEmpty else {
             return
         }
@@ -343,15 +404,23 @@ final class AddTrackerViewController: UIViewController, UITextFieldDelegate, Sch
             return
         }
         
+        let id = editingTracker?.id ?? UUID()
+        
         errorLabel.isHidden = true
         let newTracker = Tracker(
-            id: UUID(),
+            id: id,
             name: name,
             color: color,
             emoji: emoji,
             schedule: selectedSchedule
         )
-        delegate?.addNewTracker(tracker: newTracker, title: selectedCategory)
+        
+        if editingTracker == nil {
+            delegate?.addNewTracker(tracker: newTracker, title: selectedCategory)
+        } else {
+            delegate?.updateTracker(tracker: newTracker)
+        }
+        
         dismiss(animated: true, completion: nil)
     }
     

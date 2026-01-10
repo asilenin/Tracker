@@ -10,6 +10,8 @@ protocol TrackerStoreProtocol: AnyObject {
         _ tracker: Tracker,
         to category: TrackerCategoryCoreData
     ) throws
+    
+    func updateTracker(_ tracker: Tracker) throws
 
     func deleteTracker(_ tracker: Tracker) throws
 }
@@ -64,6 +66,16 @@ final class TrackerStore: NSObject, TrackerStoreProtocol {
             try context.save()
         } catch {
             AppLogger.shared.error("[TrackerStore]:\(#line)] \(#function) Failed to save tracker: \(error)")
+            throw error
+        }
+    }
+    
+    func updateTracker(_ tracker: Tracker) throws {
+        _ = try fetchOrCreateCoreDataEntity(for: tracker)
+        do {
+            try context.save()
+        } catch {
+            AppLogger.shared.error("[TrackerStore]:\(#line)] \(#function) Failed to update tracker: \(error)")
             throw error
         }
     }

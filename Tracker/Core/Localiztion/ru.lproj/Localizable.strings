@@ -21,6 +21,7 @@
 "UIHabitTrackerConstants.editTitle" = "Редактирование привычки";
 "UIHabitTrackerConstants.namePlaceholder" = "Введите название трекера";
 "UIHabitTrackerConstants.createButtonLabel" = "Создать";
+"UIHabitTrackerConstants.saveButtonLabel" = "Сохранить";
 "UIHabitTrackerConstants.cancelButtonLabel" = "Отменить";
 "UIHabitTrackerConstants.emojiTitle" = "Emoji";
 "UIHabitTrackerConstants.colorTitle" = "Цвет";
