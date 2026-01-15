@@ -1,0 +1,71 @@
+"UIConstants.trackerCollectionViewLabel" = "Trackers";
+"UIConstants.statisticsViewLabel" = "Statistics";
+
+"UITrackersVCConstants.title" = "Trackers";
+"UITrackersVCConstants.clearTextLabel" = "What would you like to track?";
+"UITrackersVCConstants.clearTextLabelNothingWasFound" = "Nothing was Found";
+"UITrackersVCConstants.searchBarPlaceholder" = "Search";
+"UITrackersVCConstants.filtersButtonLabel" = "Filters";
+"UITrackersVCConstants.contextEditLabel" = "Edit";
+"UITrackersVCConstants.contextDeleteLabel" = "Delete";
+"UITrackersVCConstants.deleteTrackerTitle" = "Are you sure you want delete Tracker?";
+"UITrackersVCConstants.deleteTrackerOK" = "Delete";
+"UITrackersVCConstants.deleteTrackerCancel" = "Cancel";
+
+
+"UIHabitTrackerConstants.errorMessage" = "Maximum 38 characters";
+"UIHabitTrackerConstants.sectionCategory" = "Category";
+"UIHabitTrackerConstants.sectionSchedule" = "Schedule";
+"UIHabitTrackerConstants.categoryImportant" = "Important";
+"UIHabitTrackerConstants.categoryUnimportant" = "Unimportant";
+"UIHabitTrackerConstants.title" = "New Habit";
+"UIHabitTrackerConstants.editTitle" = "Edit Habit";
+"UIHabitTrackerConstants.namePlaceholder" = "Enter tracker name";
+"UIHabitTrackerConstants.createButtonLabel" = "Create";
+"UIHabitTrackerConstants.saveButtonLabel" = "Save";
+"UIHabitTrackerConstants.cancelButtonLabel" = "Cancel";
+"UIHabitTrackerConstants.emojiTitle" = "Emoji";
+"UIHabitTrackerConstants.colorTitle" = "Color";
+"UIHabitTrackerConstants.everyDay" = "Every day";
+
+"UIScheduleConstants.navigationTitle" = "Schedule";
+"UIScheduleConstants.doneButtonTitle" = "Done";
+
+"UICategoryConstants.navigationTitle" = "Category";
+"UICategoryConstants.addButtonTitle" = "Add category";
+"UICategoryConstants.clearTextLabel" = "Habits and events can be\ngrouped by meaning";
+"UICategoryConstants.namePlaceholder" = "Enter category name";
+"UICategoryConstants.title" = "New Category";
+
+"UUIOnboardingConstants.buttonTitle" = "That's some tech!";
+"UUIOnboardingConstants.textOnboardingv1" = "Track only what you want";
+"UUIOnboardingConstants.textOnboardingv2" = "Even if it's not\nwater intake or yoga";
+
+"UIWeekday.monday" = "Monday";
+"UIWeekday.tuesday" = "Tuesday";
+"UIWeekday.wednesday" = "Wednesday";
+"UIWeekday.thursday" = "Thursday";
+"UIWeekday.friday" = "Friday";
+"UIWeekday.saturday" = "Saturday";
+"UIWeekday.sunday" = "Sunday";
+
+"UIWeekday.m" = "M";
+"UIWeekday.tu" = "Tu";
+"UIWeekday.w" = "W";
+"UIWeekday.th" = "Th";
+"UIWeekday.f" = "F";
+"UIWeekday.s" = "S";
+"UIWeekday.su" = "Su";
+
+"UITrackerFilter.all" = "All Trackers";
+"UITrackerFilter.today" = "Trackers for Today";
+"UITrackerFilter.completed" = "Completed";
+"UITrackerFilter.uncompleted" = "Uncompleted";
+"UITrackerFilter.listTitle" = "Filters";
+
+"UIStatisticsConstants.bestPeriod" = "Best Period";
+"UIStatisticsConstants.perfectDays" = "Perfect Days";
+"UIStatisticsConstants.completed" = "Completed";
+"UIStatisticsConstants.average" = "Average";
+"UIStatisticsConstants.clearText" = "No Data to Analyze";
+"UIStatisticsConstants.title" = "Statistics";

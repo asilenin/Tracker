@@ -62,7 +62,7 @@ final class TrackerCategoryStore: NSObject {
         do {
             try context.save()
         } catch {
-            AppLogger.shared.error("[TrackerCategoryStore] Unable to save new category: \(error)")
+            AppLogger.shared.error("[TrackerCategoryStore]:\(#line)] \(#function) Unable to save new category: \(error)")
         }
         
         return entity

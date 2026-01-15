@@ -23,7 +23,6 @@ extension UIColor {
             return "#000000"
         }
 
-        // работаем в CGFloat
         let r: CGFloat
         let g: CGFloat
         let b: CGFloat
@@ -33,7 +32,6 @@ extension UIColor {
             g = components[1]
             b = components[2]
         } else {
-            // монохромная палитра (например systemGray)
             let gray = components[0]
             r = gray
             g = gray

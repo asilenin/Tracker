@@ -29,11 +29,11 @@ final class ScheduleViewController: UIViewController {
     // MARK: - Setup UI
     private func setupView() {
         tableView.tableFooterView = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .whiteYP
         navigationItem.title = UIScheduleConstants.navigationTitle
         let title: [NSAttributedString.Key: Any] = [
             .font: UIFont.systemFont(ofSize: 16, weight: .medium),
-            .foregroundColor: UIColor.black
+            .foregroundColor: UIColor.blackYP
         ]
         navigationController?.navigationBar.titleTextAttributes = title
     }
@@ -55,7 +55,7 @@ final class ScheduleViewController: UIViewController {
     private func setupDoneButton() {
         doneButton.setTitle(UIScheduleConstants.doneButtonTitle, for: .normal)
         doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        doneButton.setTitleColor(.white, for: .normal)
+        doneButton.setTitleColor(.whiteYP, for: .normal)
         doneButton.backgroundColor = UIColor(resource: .blackYP)
         doneButton.layer.cornerRadius = 16
         doneButton.layer.masksToBounds = true
@@ -96,11 +96,9 @@ extension ScheduleViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let day = Weekday.allCases[indexPath.row]
-        cell.contentView.backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
-        let backgroundColor = UIColor(resource: .backgroundYP).withAlphaComponent(0.3)
-        cell.backgroundColor = backgroundColor
-        cell.contentView.backgroundColor = .clear
-        cell.textLabel?.text = day.rawValue
+        cell.contentView.backgroundColor = .backgroundTableYP
+        cell.backgroundColor = .backgroundTableYP
+        cell.textLabel?.text = day.fullName
         cell.daySwitch.isOn = selectedSchedule.contains(day)
         cell.daySwitch.tag = indexPath.row
         cell.daySwitch.removeTarget(nil, action: nil, for: .allEvents)

@@ -7,12 +7,48 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
         
+        configureNavigationBarAppearance()
+        configureTabBarAppearance()
         
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = selectVC()
         window.makeKeyAndVisible()
         
         self.window = window
+    }
+    
+    private func configureNavigationBarAppearance() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+
+        appearance.backgroundColor = .whiteYP
+
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.textPrimaryYP
+        ]
+
+        appearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor.textPrimaryYP
+        ]
+
+        let navBar = UINavigationBar.appearance()
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
+        navBar.compactAppearance = appearance
+    }
+    
+    private func configureTabBarAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+
+        appearance.backgroundColor = .whiteYP
+
+        let tabBar = UITabBar.appearance()
+        tabBar.standardAppearance = appearance
+
+        if #available(iOS 15.0, *) {
+            tabBar.scrollEdgeAppearance = appearance
+        }
     }
     
     private func selectVC() -> UIViewController {

@@ -2,7 +2,21 @@ import UIKit
 import CoreData
 import Logging
 
-final class TrackerStore: NSObject {
+protocol TrackerStoreProtocol: AnyObject {
+
+    func fetchTrackers() -> [Tracker]
+
+    func addNewTracker(
+        _ tracker: Tracker,
+        to category: TrackerCategoryCoreData
+    ) throws
+    
+    func updateTracker(_ tracker: Tracker) throws
+
+    func deleteTracker(_ tracker: Tracker) throws
+}
+
+final class TrackerStore: NSObject, TrackerStoreProtocol {
     
     // MARK: - Public Properties
     weak var delegate: TrackerStoreDelegate?
@@ -51,7 +65,37 @@ final class TrackerStore: NSObject {
         do {
             try context.save()
         } catch {
-            AppLogger.shared.error("[TrackerStore] Failed to save tracker: \(error)")
+            AppLogger.shared.error("[TrackerStore]:\(#line)] \(#function) Failed to save tracker: \(error)")
+            throw error
+        }
+    }
+    
+    func updateTracker(_ tracker: Tracker) throws {
+        _ = try fetchOrCreateCoreDataEntity(for: tracker)
+        do {
+            try context.save()
+        } catch {
+            AppLogger.shared.error("[TrackerStore]:\(#line)] \(#function) Failed to update tracker: \(error)")
+            throw error
+        }
+    }
+    
+    func deleteTracker(_ tracker: Tracker) throws {
+        let request: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+        request.fetchLimit = 1
+
+        guard let entity = try context.fetch(request).first else {
+            AppLogger.shared.warning("[TrackerStore]:\(#line)] \(#function) Tracker not found for deletion: \(tracker.id)")
+            return
+        }
+
+        context.delete(entity)
+
+        do {
+            try context.save()
+        } catch {
+            AppLogger.shared.error("[TrackerStore]:\(#line)] \(#function) Failed to delete tracker: \(error)")
             throw error
         }
     }

@@ -19,15 +19,13 @@ final class ScheduleCell: UITableViewCell {
     }
     
     // MARK: - Setup UI Elements
-    
     private func setupDaySwitch(){
-        daySwitch.onTintColor = UIColor(resource: .blueYP)
+        daySwitch.onTintColor = .blueYP
         daySwitch.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(daySwitch)
     }
     
     // MARK: - Constraints
-    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             daySwitch.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),

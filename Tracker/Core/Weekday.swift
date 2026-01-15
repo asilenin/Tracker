@@ -1,11 +1,11 @@
 enum Weekday: String, CaseIterable, Codable {
-    case monday = "Понедельник"
-    case tuesday = "Вторник"
-    case wednesday = "Среда"
-    case thursday = "Четверг"
-    case friday = "Пятница"
-    case saturday = "Суббота"
-    case sunday = "Воскресенье"
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case sunday
 
     // MARK: - Init for Calendar weekday numbers
     init?(calendarWeekday: Int) {
@@ -22,18 +22,29 @@ enum Weekday: String, CaseIterable, Codable {
     }
 
     // MARK: - Full localized name
-    var fullName: String { rawValue }
+    var fullName: String {
+        switch self {
+        case .monday: WeekdaysConstants.monday
+        case .tuesday: WeekdaysConstants.tuesday
+        case .wednesday: WeekdaysConstants.wednesday
+        case .thursday: WeekdaysConstants.thursday
+        case .friday: WeekdaysConstants.friday
+        case .saturday: WeekdaysConstants.saturday
+        case .sunday: WeekdaysConstants.sunday
+        }
+    }
+
 
     // MARK: - Short weekday names
     var shortName: String {
         switch self {
-        case .monday: "Пн"
-        case .tuesday: "Вт"
-        case .wednesday: "Ср"
-        case .thursday: "Чт"
-        case .friday: "Пт"
-        case .saturday: "Сб"
-        case .sunday: "Вс"
+        case .monday: WeekdaysConstants.m
+        case .tuesday: WeekdaysConstants.tu
+        case .wednesday: WeekdaysConstants.w
+        case .thursday: WeekdaysConstants.th
+        case .friday: WeekdaysConstants.f
+        case .saturday: WeekdaysConstants.s
+        case .sunday: WeekdaysConstants.su
         }
     }
 }

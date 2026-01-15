@@ -40,7 +40,7 @@ final class OnboardingPageViewController: UIViewController {
     
     private func setupLabel() {
         label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
-        label.textColor = .blackYP
+        label.textColor = .alwaysBlackYP
         label.text = labelText
         label.numberOfLines = 0
         label.textAlignment = .center
